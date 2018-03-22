@@ -189,6 +189,7 @@ CbDxeEntryPoint (
   //
   GuidHob = GetFirstGuidHob (&gUefiFrameBufferInfoGuid);
   if (GuidHob != NULL) {
+	  DEBUG ((EFI_D_ERROR, "CbDxeEntryPoint() 1\n"));
     FbInfo  = (FRAME_BUFFER_INFO *)GET_GUID_HOB_DATA (GuidHob);
     Status = PcdSet32S (PcdVideoHorizontalResolution, FbInfo->HorizontalResolution);
     ASSERT_EFI_ERROR (Status);
@@ -199,7 +200,9 @@ CbDxeEntryPoint (
     Status = PcdSet32S (PcdSetupVideoVerticalResolution, FbInfo->VerticalResolution);
     ASSERT_EFI_ERROR (Status);
   }
-
+  else {
+	  DEBUG ((EFI_D_ERROR, "CbDxeEntryPoint() 2\n"));
+  }
   //
   // Register callback on the ready to boot event
   // in order to enable SCI

@@ -226,7 +226,7 @@ FatOFileFlush (
   FAT_OFILE     *Parent;
   FAT_DIRENT    *DirEnt;
   FAT_DATE_TIME FatNow;
-
+  DEBUG ((EFI_D_INFO, "FatOFileFlush(): 1\n"));
   //
   // Flush each entry up the tree while dirty
   //
@@ -276,6 +276,7 @@ FatOFileFlush (
     //
     OFile = Parent;
   } while (OFile != NULL);
+  DEBUG ((EFI_D_INFO, "FatOFileFlush(): 2\n"));
   return EFI_SUCCESS;
 }
 

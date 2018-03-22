@@ -208,7 +208,9 @@ END_OF_LINE = '\n'
 ##
 # Arch List Items
 #
-ARCH_LIST = ["IA32",
+ARCH_LIST = ["EL32",
+	     	 "EL64",
+	     	 "IA32",
              "X64",
              "IPF",
              "EBC",

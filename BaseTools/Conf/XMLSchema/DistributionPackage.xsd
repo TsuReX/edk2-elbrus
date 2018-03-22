@@ -2862,6 +2862,8 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 
   <xs:simpleType name="ArchTypes">
     <xs:restriction base="xs:NCName">
+      <xs:enumeration value="EL32"/>
+      <xs:enumeration value="EL64"/>
       <xs:enumeration value="IA32"/>
       <xs:enumeration value="X64"/>
       <xs:enumeration value="IPF"/>
@@ -2883,6 +2885,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
     <xs:restriction base="xs:NCName">
       <xs:enumeration value="MSFT"/>
       <xs:enumeration value="GCC"/>
+      <xs:enumeration value="LCC"/>
       <xs:pattern value="[A-Z][a-zA-Z0-9]*">
         <xs:annotation>
           <xs:documentation xml:lang="en-us">

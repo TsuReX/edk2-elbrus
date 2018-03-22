@@ -173,6 +173,7 @@ class AutoGen(object):
            or MetaFile not in Class._CACHE_[Key][Arch]:
             AutoGenObject = super(AutoGen, Class).__new__(Class)
             # call real constructor
+            
             if not AutoGenObject._Init(Workspace, MetaFile, Target, Toolchain, Arch, *args, **kwargs):
                 return None
             if Key not in Class._CACHE_:
@@ -262,8 +263,8 @@ class WorkspaceAutoGen(AutoGen):
 
         # there's many relative directory operations, so ...
         os.chdir(self.WorkspaceDir)
-
-        #
+	    
+	    #
         # Merge Arch
         #
         if not self.ArchList:
@@ -3002,7 +3003,7 @@ class ModuleAutoGen(AutoGen):
             #
             if self.PlatformInfo.ToolChainFamily in ('MSFT'):
                 gBuildOptIncludePattern = re.compile(r"(?:.*?)/I[ \t]*([^ ]*)", re.MULTILINE | re.DOTALL)
-            elif self.PlatformInfo.ToolChainFamily in ('INTEL', 'GCC', 'RVCT'):
+            elif self.PlatformInfo.ToolChainFamily in ('INTEL', 'LCC', 'GCC', 'RVCT'):
                 gBuildOptIncludePattern = re.compile(r"(?:.*?)-I[ \t]*([^ ]*)", re.MULTILINE | re.DOTALL)
             else:
                 #

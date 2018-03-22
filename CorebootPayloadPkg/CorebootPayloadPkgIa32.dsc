@@ -31,7 +31,7 @@
   FLASH_DEFINITION                    = CorebootPayloadPkg/CorebootPayloadPkg.fdf
 
   DEFINE SECURE_BOOT_ENABLE      = FALSE
-  DEFINE SOURCE_DEBUG_ENABLE     = FALSE
+  DEFINE SOURCE_DEBUG_ENABLE     = TRUE
 
   #
   # CPU options
@@ -381,6 +381,7 @@
   MdeModulePkg/Universal/StatusCodeHandler/Pei/StatusCodeHandlerPei.inf
 
   CorebootModulePkg/CbSupportPei/CbSupportPei.inf
+  CorebootModulePkg/YurchPeim/YurchPeim.inf
   MdeModulePkg/Core/DxeIplPeim/DxeIpl.inf
 
 [Components.IA32]
@@ -436,7 +437,7 @@
   MdeModulePkg/Universal/DisplayEngineDxe/DisplayEngineDxe.inf
 
   CorebootModulePkg/CbSupportDxe/CbSupportDxe.inf
-
+  CorebootModulePkg/YurchDxe/YurchDxe.inf
   #
   # SMBIOS Support
   #

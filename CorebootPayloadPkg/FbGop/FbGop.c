@@ -1493,35 +1493,42 @@ FbGopGraphicsOutputVbeBlt (
 **/
 EFI_STATUS
 EFIAPI
-FbGopEntryPoint(
-  IN EFI_HANDLE           ImageHandle,
-  IN EFI_SYSTEM_TABLE     *SystemTable
-  )
-{
-  EFI_STATUS  Status;
-  EFI_HOB_GUID_TYPE  *GuidHob;
-  
-  //
-  // Find the frame buffer information guid hob
-  //
-  GuidHob = GetFirstGuidHob (&gUefiFrameBufferInfoGuid);
-  if (GuidHob != NULL) {   
-    //
-    // Install driver model protocol(s).
-    //
-    Status = EfiLibInstallDriverBindingComponentName2 (
-               ImageHandle,
-               SystemTable,
-               &gFbGopDriverBinding,
-               ImageHandle,
-               &gFbGopComponentName,
-               &gFbGopComponentName2
-               );
-    ASSERT_EFI_ERROR (Status);
-  } else {
-    DEBUG ((EFI_D_ERROR, "No FrameBuffer information from coreboot.  NO GOP driver !!!\n"));
-    Status = EFI_ABORTED;
-  }
+FbGopEntryPoint( IN EFI_HANDLE           ImageHandle,
+			     IN EFI_SYSTEM_TABLE     *SystemTable ) {
+
+	EFI_STATUS  Status;
+	EFI_HOB_GUID_TYPE  *GuidHob;
+	DEBUG ((EFI_D_INFO, "FbGopEntryPoint(): 1\n"));
+
+	//
+	// Find the frame buffer information guid hob
+	//
+
+	GuidHob = GetFirstGuidHob (&gUefiFrameBufferInfoGuid);
+
+	if (GuidHob != NULL) {
+
+		DEBUG ((EFI_D_INFO, "FbGopEntryPoint(): 2\n"));
+
+		//
+		// Install driver model protocol(s).
+		//
+		Status = EfiLibInstallDriverBindingComponentName2 (
+															ImageHandle,
+															SystemTable,
+															&gFbGopDriverBinding,
+															ImageHandle,
+															&gFbGopComponentName,
+															&gFbGopComponentName2
+														  );
+		ASSERT_EFI_ERROR (Status);
+
+	}
+	else {
+		DEBUG ((EFI_D_ERROR, "No FrameBuffer information from coreboot.  NO GOP driver !!!\n"));
+		Status = EFI_ABORTED;
+		DEBUG ((EFI_D_INFO, "FbGopEntryPoint(): 3\n"));
+	}
   return Status;  
 }
 

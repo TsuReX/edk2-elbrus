@@ -2101,8 +2101,8 @@ def SingleCheckCallback(option, opt_str, value, parser):
 #
 def MyOptionParser():
     Parser = OptionParser(description=__copyright__, version=__version__, prog="build.exe", usage="%prog [options] [all|fds|genc|genmake|clean|cleanall|cleanlib|modules|libraries|run]")
-    Parser.add_option("-a", "--arch", action="append", type="choice", choices=['IA32', 'X64', 'IPF', 'EBC', 'ARM', 'AARCH64'], dest="TargetArch",
-        help="ARCHS is one of list: IA32, X64, IPF, ARM, AARCH64 or EBC, which overrides target.txt's TARGET_ARCH definition. To specify more archs, please repeat this option.")
+    Parser.add_option("-a", "--arch", action="append", type="choice", choices=['EL32', 'EL64', 'IA32', 'X64', 'IPF', 'EBC', 'ARM', 'AARCH64'], dest="TargetArch",
+        help="ARCHS is one of list: EL32, EL64, IA32, X64, IPF, ARM, AARCH64 or EBC, which overrides target.txt's TARGET_ARCH definition. To specify more archs, please repeat this option.")
     Parser.add_option("-p", "--platform", action="callback", type="string", dest="PlatformFile", callback=SingleCheckCallback,
         help="Build the platform specified by the DSC file name argument, overriding target.txt's ACTIVE_PLATFORM definition.")
     Parser.add_option("-m", "--module", action="callback", type="string", dest="ModuleFile", callback=SingleCheckCallback,
@@ -2178,10 +2178,11 @@ def Main():
     #
     # Parse the options and args
     #
+
     (Option, Target) = MyOptionParser()
     GlobalData.gOptions = Option
     GlobalData.gCaseInsensitive = Option.CaseInsensitive
-
+    print(Target)
     # Set log level
     if Option.verbose != None:
         EdkLogger.SetLevel(EdkLogger.VERBOSE)

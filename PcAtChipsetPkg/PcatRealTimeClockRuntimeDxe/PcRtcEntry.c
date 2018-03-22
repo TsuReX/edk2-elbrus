@@ -137,8 +137,10 @@ InitializePcRtc (
   EfiInitializeLock (&mModuleGlobal.RtcLock, TPL_CALLBACK);
   mModuleGlobal.CenturyRtcAddress = GetCenturyRtcAddress ();
 
-  Status = PcRtcInit (&mModuleGlobal);
-  ASSERT_EFI_ERROR (Status);
+//   Yurchenko !!!
+//  Status = PcRtcInit (&mModuleGlobal);
+//  ASSERT_EFI_ERROR (Status);
+  DEBUG ((EFI_D_INFO, "InitializePcRtc(): UNCOMMENT THIS \n"));
   
   Status = gBS->CreateEventEx (
                   EVT_NOTIFY_SIGNAL,

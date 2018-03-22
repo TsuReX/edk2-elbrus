@@ -159,7 +159,7 @@ class BuildFile(object):
         "gmake" :   "include"
     }
 
-    _INC_FLAG_ = {"MSFT" : "/I", "GCC" : "-I", "INTEL" : "-I", "RVCT" : "-I"}
+    _INC_FLAG_ = {"MSFT" : "/I", "LCC" : "-I", "GCC" : "-I", "INTEL" : "-I", "RVCT" : "-I"}
 
     ## Constructor of BuildFile
     #
@@ -494,6 +494,10 @@ cleanlib:
                 PCI_COMPRESS_Flag = True
 
         # tools definitions
+        print("\nDEBUG")
+        print(self._AutoGenObject.ToolChainFamily)
+        print(self._INC_FLAG_)
+        print("DEBUG")
         ToolsDef = []
         IncPrefix = self._INC_FLAG_[self._AutoGenObject.ToolChainFamily]
         for Tool in self._AutoGenObject.BuildOption:

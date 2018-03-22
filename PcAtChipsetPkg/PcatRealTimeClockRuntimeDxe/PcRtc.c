@@ -150,7 +150,9 @@ PcRtcInit (
   //
   // Wait for up to 0.1 seconds for the RTC to be updated
   //
-  Status = RtcWaitToUpdate (PcdGet32 (PcdRealTimeClockUpdateTimeout));
+  UINTN Timeout = PcdGet32 (PcdRealTimeClockUpdateTimeout);
+  DEBUG ((EFI_D_INFO, "PcRtcInit(): PcdRealTimeClockUpdateTimeout: %d\n", Timeout));
+  Status = RtcWaitToUpdate (Timeout);
   if (EFI_ERROR (Status)) {
     //
     // Set the variable with default value if the RTC is functioning incorrectly.
@@ -160,6 +162,7 @@ PcRtcInit (
     if (!EfiAtRuntime ()) {
       EfiReleaseLock (&Global->RtcLock);
     }
+    DEBUG ((EFI_D_INFO, "PcRtcInit(): 1\n"));
     return EFI_DEVICE_ERROR;
   }
   //
@@ -237,6 +240,7 @@ PcRtcInit (
   //
   Status = PcRtcSetTime (&Time, Global);
   if (EFI_ERROR (Status)) {
+	  DEBUG ((EFI_D_INFO, "PcRtcInit(): 2\n"));
     return EFI_DEVICE_ERROR;
   }
   
@@ -278,6 +282,7 @@ PcRtcInit (
     if (!EfiAtRuntime ()) {
     EfiReleaseLock (&Global->RtcLock);
     }
+    DEBUG ((EFI_D_INFO, "PcRtcInit(): 3\n"));
     return EFI_DEVICE_ERROR;
   }
 
@@ -297,6 +302,7 @@ PcRtcInit (
     if (!EfiAtRuntime ()) {
       EfiReleaseLock (&Global->RtcLock);
     }
+    DEBUG ((EFI_D_INFO, "PcRtcInit(): 4\n"));
     return EFI_DEVICE_ERROR;
   }
   
@@ -945,7 +951,9 @@ RtcWaitToUpdate (
   //
   RegisterD.Data = RtcRead (RTC_ADDRESS_REGISTER_D);
 
+  DEBUG ((EFI_D_INFO, "RtcWaitToUpdate(): RegisterD.Data: 0x%X\n", RegisterD.Data));
   if (RegisterD.Bits.Vrt == 0) {
+	  DEBUG ((EFI_D_INFO, "RtcWaitToUpdate(): 1\n"));
     return EFI_DEVICE_ERROR;
   }
   //
@@ -961,6 +969,7 @@ RtcWaitToUpdate (
 
   RegisterD.Data = RtcRead (RTC_ADDRESS_REGISTER_D);
   if (Timeout == 0 || RegisterD.Bits.Vrt == 0) {
+	  DEBUG ((EFI_D_INFO, "RtcWaitToUpdate(): 2\n"));
     return EFI_DEVICE_ERROR;
   }
 

@@ -261,7 +261,7 @@
 #
 ################################################################################
 [PcdsFeatureFlag]
-  gEfiMdeModulePkgTokenSpaceGuid.PcdStatusCodeUseSerial|FALSE
+  gEfiMdeModulePkgTokenSpaceGuid.PcdStatusCodeUseSerial|TRUE
   gEfiMdeModulePkgTokenSpaceGuid.PcdStatusCodeUseMemory|FALSE
   gEfiMdeModulePkgTokenSpaceGuid.PcdDxeIplSwitchToLongMode|TRUE
   gEfiMdeModulePkgTokenSpaceGuid.PcdConOutGopSupport|TRUE
@@ -382,6 +382,7 @@
   MdeModulePkg/Universal/StatusCodeHandler/Pei/StatusCodeHandlerPei.inf
 
   CorebootModulePkg/CbSupportPei/CbSupportPei.inf
+  CorebootModulePkg/YurchPeim/YurchPeim.inf
   MdeModulePkg/Core/DxeIplPeim/DxeIpl.inf
 
 [Components.X64]
@@ -437,7 +438,7 @@
   MdeModulePkg/Universal/DisplayEngineDxe/DisplayEngineDxe.inf
 
   CorebootModulePkg/CbSupportDxe/CbSupportDxe.inf
-
+  CorebootModulePkg/YurchDxe/YurchDxe.inf
   #
   # SMBIOS Support
   #

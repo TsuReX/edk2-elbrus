@@ -11,4 +11,5 @@ dir=$(dirname "$full_cmd")
 cmd=${full_cmd##*/}
 
 export PYTHONPATH="$dir/../../Source/Python"
+echo buid.sh:  "${python_exe:-python}" "$dir/../../Source/Python/$cmd/$cmd.py" "$@"
 exec "${python_exe:-python}" "$dir/../../Source/Python/$cmd/$cmd.py" "$@"

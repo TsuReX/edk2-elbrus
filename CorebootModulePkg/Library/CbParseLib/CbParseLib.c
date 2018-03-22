@@ -107,6 +107,9 @@ FindCbTag (
   UINTN              Idx;
   UINT16             CheckSum;
 
+  /* yurchenko */
+  DEBUG ((EFI_D_ERROR, "FindCbTag(*start = 0x%p, Tag = 0x%X)\n", Start, Tag));
+
   Header = NULL;
   TmpPtr = (UINT8 *)Start;
   for (Idx = 0; Idx < 4096; Idx += 16, TmpPtr += 16) {
@@ -145,10 +148,16 @@ FindCbTag (
     Record = (struct cb_record *)TmpPtr;
     if (Record->tag == CB_TAG_FORWARD) {
       TmpPtr = (VOID *)(UINTN)((struct cb_forward *)(UINTN)Record)->forward;
+
       if (Tag == CB_TAG_FORWARD) {
-        return TmpPtr;
-      } else {
-        return FindCbTag (TmpPtr, Tag);
+    	  /* yurchenko */
+    	  DEBUG ((EFI_D_ERROR, "\tFindCbTag return-0 = 0x%p\n", TmpPtr));
+    	  return TmpPtr;
+      }
+      else {
+    	  /* yurchenko */
+    	  DEBUG ((EFI_D_ERROR, "\tFindCbTag return-1 = 0x%p\n", TmpPtr));
+    	  return FindCbTag (TmpPtr, Tag);
       }
     }
     if (Record->tag == Tag) {
@@ -158,6 +167,8 @@ FindCbTag (
     TmpPtr += Record->size;
   }
 
+  /* yurchenko */
+  DEBUG ((EFI_D_ERROR, "\tFindCbTag return-2 = 0x%p\n", TagPtr));
   return TagPtr;
 }
 
@@ -646,15 +657,18 @@ CbParseFbInfo (
   struct cb_framebuffer       *CbFbRec;
 
   if (pFbInfo == NULL) {
+	  DEBUG ((EFI_D_ERROR, "CbParseFbInfo() 1\n"));
     return RETURN_INVALID_PARAMETER;
   }
 
   CbFbRec = FindCbTag (0, CB_TAG_FRAMEBUFFER);
   if (CbFbRec == NULL) {
+	  DEBUG ((EFI_D_ERROR, "CbParseFbInfo() 2\n"));
     CbFbRec = FindCbTag ((VOID *)(UINTN)PcdGet32 (PcdCbHeaderPointer), CB_TAG_FRAMEBUFFER);
   }
 
   if (CbFbRec == NULL) {
+	  DEBUG ((EFI_D_ERROR, "CbParseFbInfo() 3\n"));
     return RETURN_NOT_FOUND;
   }
 

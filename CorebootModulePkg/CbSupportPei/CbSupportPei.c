@@ -417,10 +417,14 @@ CbPeiEntryPoint (
   ZeroMem (&FbInfo, sizeof (FRAME_BUFFER_INFO));
   Status = CbParseFbInfo (&FbInfo);
   if (!EFI_ERROR (Status)) {
-    pFbInfo = BuildGuidHob (&gUefiFrameBufferInfoGuid, sizeof (FRAME_BUFFER_INFO));
+	DEBUG ((EFI_D_ERROR, "CbPeiEntryPoint() 1\n"));
+	pFbInfo = BuildGuidHob (&gUefiFrameBufferInfoGuid, sizeof (FRAME_BUFFER_INFO));
     ASSERT (pSystemTableInfo != NULL);
     CopyMem (pFbInfo, &FbInfo, sizeof (FRAME_BUFFER_INFO));
     DEBUG ((EFI_D_ERROR, "Create frame buffer info guid hob\n"));
+  }
+  else {
+	  DEBUG ((EFI_D_ERROR, "CbPeiEntryPoint() 2\n"));
   }
 
   //

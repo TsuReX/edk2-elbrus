@@ -289,7 +289,7 @@ FatOpenEx (
       FatDestroyTask (Task);
     }
   }
-
+  DEBUG ((EFI_D_INFO, "FatOpenEx(): 1\n"));
   return Status;
 }
 
