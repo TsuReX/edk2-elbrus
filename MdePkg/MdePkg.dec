@@ -30,6 +30,9 @@
 [Includes]
   Include
 
+[Includes.EL64]
+  Include/EL64
+
 [Includes.IA32]
   Include/Ia32
 

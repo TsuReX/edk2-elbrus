@@ -619,7 +619,48 @@ struct _LIST_ENTRY {
 
 #elif defined(__GNUC__)
 
-#if defined(MDE_CPU_X64) && !defined(NO_MSABI_VA_FUNCS)
+
+
+
+#if defined(MDE_CPU_EL64)
+
+ // COPIED FROM /home/cf/e2k/mcst.rel-15-0/lcc-home/1.15.25/e2k-linux.cross/include/va-e2k.h
+/*
+*  Internals of varargs for e2k
+*/
+#ifndef _VA_LIST
+#define _VA_LIST va_list
+#endif
+
+#ifdef __STDC__
+typedef void* va_list;
+#else
+typedef char* va_list;
+#endif
+
+/* GCC compatibility */
+typedef va_list VA_LIST;
+
+/* Traditional interface  __builtin_va_alist is magically recognized as synonim for ...
+ for old-style functions. */
+#define va_alist                __va_alist,__builtin_va_alist
+#define va_dcl                  va_list __va_alist; int __builtin_va_alist;
+
+#define __PAR_SIZE              8
+#define __arg_size(x)           ((sizeof(x)+__PAR_SIZE-1) & ~(__PAR_SIZE-1))
+#define VA_START(ap, parmN) ((ap) = (va_list)((char *)(&parmN)+__arg_size(parmN)))
+
+//#define VA_START(ap)            ((ap) = (va_list)&__va_alist)
+#define VA_ARG(ap, type)																				\
+			(( ap = (char*)ap +																			\
+			((~((int)((char*)ap-(char*)0))+1) & (((__PAR_SIZE<<1)-1)>>(sizeof(type) <= __PAR_SIZE)))),	\
+			(*(type *)((char*)( ap = (char*)ap + __arg_size(type)) - __arg_size(type))))
+
+#define VA_END(ap)              ((void)0)
+#define VA_COPY(dest, src)      ((dest) = (src))
+
+
+#elif defined(MDE_CPU_X64) && !defined(NO_MSABI_VA_FUNCS)
 //
 // X64 only. Use MS ABI version of GCC built-in macros for variable argument lists.
 //
@@ -660,7 +701,7 @@ typedef __builtin_va_list VA_LIST;
 
 #define VA_COPY(Dest, Start)         __builtin_va_copy (Dest, Start)
 
-#endif
+#endif //defined(MDE_CPU_X64) && !defined(NO_MSABI_VA_FUNCS)
 
 #else
 ///

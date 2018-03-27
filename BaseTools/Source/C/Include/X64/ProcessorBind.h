@@ -23,7 +23,7 @@
 
 
 //
-// Make sure we are useing the correct packing rules per EFI specification
+// Make sure we are using the correct packing rules per EFI specification
 //
 #ifndef __GNUC__
 #pragma pack()

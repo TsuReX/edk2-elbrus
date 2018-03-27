@@ -1,0 +1,23 @@
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = CorebootPayloadPkg
+  PACKAGE_GUID                   = 58ABC905-951E-472e-8590-77BA8A50BE63
+  PACKAGE_VERSION                = 0.1
+
+[LibraryClasses]
+
+[Guids]
+
+[Ppis]
+
+[Protocols]
+
+[PcdsFixedAtBuild, PcdsPatchableInModule]
+
+gUefiCorebootModulePkgTokenSpaceGuid.PcdPayloadFdMemBase|0|UINT32|0x10000001
+gUefiCorebootModulePkgTokenSpaceGuid.PcdPayloadFdMemSize|0|UINT32|0x10000002
+
+
+[PcdsDynamic, PcdsDynamicEx]
+

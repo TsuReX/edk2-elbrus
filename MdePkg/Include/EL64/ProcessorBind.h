@@ -1,14 +1,14 @@
 /** @file
-  Processor or Compiler specific defines and types for IA-32 architecture.
+  Processor or Compiler specific defines and types x64 (Intel 64, AMD64).
 
-Copyright (c) 2006 - 2015, Intel Corporation. All rights reserved.<BR>
-This program and the accompanying materials are licensed and made available under 
-the terms and conditions of the BSD License that accompanies this distribution.  
-The full text of the license may be found at
-http://opensource.org/licenses/bsd-license.php.                                          
-    
-THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,                     
-WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.             
+  Copyright (c) 2006 - 2015, Intel Corporation. All rights reserved.<BR>
+  This program and the accompanying materials                          
+  are licensed and made available under the terms and conditions of the BSD License         
+  which accompanies this distribution.  The full text of the license may be found at        
+  http://opensource.org/licenses/bsd-license.php                                            
+
+  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,                     
+  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.             
 
 **/
 
@@ -16,15 +16,29 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #define __PROCESSOR_BIND_H__
 
 ///
-/// Define the processor type so other code can make processor based choices.
+/// Define the processor type so other code can make processor based choices
 ///
-#define MDE_CPU_IA32
+#define MDE_CPU_EL64
 
 //
 // Make sure we are using the correct packing rules per EFI specification
 //
 #if !defined(__GNUC__)
 #pragma pack()
+#endif
+
+#if defined(__GNUC__) && defined(__pic__) && !defined(USING_LTO)
+//
+// Mark all symbol declarations and references as hidden, meaning they will
+// not be subject to symbol preemption. This allows the compiler to refer to
+// symbols directly using relative references rather than via the GOT, which
+// contains absolute symbol addresses that are subject to runtime relocation.
+//
+// The LTO linker will not emit GOT based relocations when all symbol
+// references can be resolved locally, and so there is no need to set the
+// pragma in that case (and doing so will cause other issues).
+//
+#pragma GCC visibility push (hidden)
 #endif
 
 #if defined(__INTEL_COMPILER)
@@ -117,29 +131,28 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 
 
 #if defined(_MSC_EXTENSIONS)
-
   //
   // use Microsoft C compiler dependent integer width types
   //
 
   ///
-  /// 8-byte unsigned value.
+  /// 8-byte unsigned value
   ///
   typedef unsigned __int64    UINT64;
   ///
-  /// 8-byte signed value.
+  /// 8-byte signed value
   ///
   typedef __int64             INT64;
   ///
-  /// 4-byte unsigned value.
+  /// 4-byte unsigned value
   ///
   typedef unsigned __int32    UINT32;
   ///
-  /// 4-byte signed value.
+  /// 4-byte signed value
   ///
   typedef __int32             INT32;
   ///
-  /// 2-byte unsigned value.
+  /// 2-byte unsigned value
   ///
   typedef unsigned short      UINT16;
   ///
@@ -148,7 +161,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
   ///
   typedef unsigned short      CHAR16;
   ///
-  /// 2-byte signed value.
+  /// 2-byte signed value
   ///
   typedef short               INT16;
   ///
@@ -157,36 +170,36 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
   ///
   typedef unsigned char       BOOLEAN;
   ///
-  /// 1-byte unsigned value.
+  /// 1-byte unsigned value
   ///
   typedef unsigned char       UINT8;
   ///
-  /// 1-byte Character.
+  /// 1-byte Character
   ///
   typedef char                CHAR8;
   ///
-  /// 1-byte signed value.
+  /// 1-byte signed value
   ///
   typedef signed char         INT8;
-#else  
+#else
   ///
-  /// 8-byte unsigned value.
+  /// 8-byte unsigned value
   ///
   typedef unsigned long long  UINT64;
   ///
-  /// 8-byte signed value.
+  /// 8-byte signed value
   ///
   typedef long long           INT64;
   ///
-  /// 4-byte unsigned value.
+  /// 4-byte unsigned value
   ///
   typedef unsigned int        UINT32;
   ///
-  /// 4-byte signed value.
+  /// 4-byte signed value
   ///
   typedef int                 INT32;
   ///
-  /// 2-byte unsigned value.
+  /// 2-byte unsigned value
   ///
   typedef unsigned short      UINT16;
   ///
@@ -195,7 +208,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
   ///
   typedef unsigned short      CHAR16;
   ///
-  /// 2-byte signed value.
+  /// 2-byte signed value
   ///
   typedef short               INT16;
   ///
@@ -204,7 +217,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
   ///
   typedef unsigned char       BOOLEAN;
   ///
-  /// 1-byte unsigned value.
+  /// 1-byte unsigned value
   ///
   typedef unsigned char       UINT8;
   ///
@@ -218,15 +231,16 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #endif
 
 ///
-/// Unsigned value of native width.  (4 bytes on supported 32-bit processor instructions;
-/// 8 bytes on supported 64-bit processor instructions.)
+/// Unsigned value of native width.  (4 bytes on supported 32-bit processor instructions,
+/// 8 bytes on supported 64-bit processor instructions)
 ///
-typedef UINT32  UINTN;
+typedef UINT64  UINTN;
 ///
-/// Signed value of native width.  (4 bytes on supported 32-bit processor instructions;
-/// 8 bytes on supported 64-bit processor instructions.)
+/// Signed value of native width.  (4 bytes on supported 32-bit processor instructions,
+/// 8 bytes on supported 64-bit processor instructions)
 ///
-typedef INT32   INTN;
+typedef INT64   INTN;
+
 
 //
 // Processor specific defines
@@ -235,27 +249,27 @@ typedef INT32   INTN;
 ///
 /// A value of native width with the highest bit set.
 ///
-#define MAX_BIT     0x80000000
+#define MAX_BIT     0x8000000000000000ULL
 ///
 /// A value of native width with the two highest bits set.
 ///
-#define MAX_2_BITS  0xC0000000
+#define MAX_2_BITS  0xC000000000000000ULL
 
 ///
-/// Maximum legal IA-32 address.
+/// Maximum legal x64 address
 ///
-#define MAX_ADDRESS   0xFFFFFFFF
+#define MAX_ADDRESS   0xFFFFFFFFFFFFFFFFULL
 
 ///
-/// Maximum legal IA-32 INTN and UINTN values.
+/// Maximum legal x64 INTN and UINTN values.
 ///
-#define MAX_INTN   ((INTN)0x7FFFFFFF)
-#define MAX_UINTN  ((UINTN)0xFFFFFFFF)
+#define MAX_INTN   ((INTN)0x7FFFFFFFFFFFFFFFULL)
+#define MAX_UINTN  ((UINTN)0xFFFFFFFFFFFFFFFFULL)
 
 ///
-/// The stack alignment required for IA-32.
+/// The stack alignment required for x64
 ///
-#define CPU_STACK_ALIGNMENT   sizeof(UINTN)
+#define CPU_STACK_ALIGNMENT   16
 
 //
 // Modifier to ensure that all protocol member functions and EFI intrinsics
@@ -273,15 +287,20 @@ typedef INT32   INTN;
   #define EFIAPI __cdecl  
 #elif defined(__GNUC__)
   ///
-  /// GCC specific method for EFIAPI calling convention.
-  /// 
-  #define EFIAPI __attribute__((cdecl))  
+  /// Define the standard calling convention regardless of optimization level.
+  /// The GCC support assumes a GCC compiler that supports the EFI ABI. The EFI
+  /// ABI is much closer to the x64 Microsoft* ABI than standard x64 (x86-64) 
+  /// GCC ABI. Thus a standard x64 (x86-64) GCC compiler can not be used for 
+  /// x64. Warning the assembly code in the MDE x64 does not follow the correct 
+  /// ABI for the standard x64 (x86-64) GCC.
+  ///
+  #define EFIAPI 
 #else
   ///
   /// The default for a non Microsoft* or GCC compiler is to assume the EFI ABI
   /// is the standard. 
   ///
-  #define EFIAPI
+  #define EFIAPI       
 #endif
 
 #if defined(__GNUC__)
@@ -294,7 +313,7 @@ typedef INT32   INTN;
 
 /**
   Return the pointer to the first instruction of a function given a function pointer.
-  On IA-32 CPU architectures, these two pointer values are the same, 
+  On x64 CPU architectures, these two pointer values are the same, 
   so the implementation of this macro is very simple.
   
   @param  FunctionPointer   A pointer to a function.

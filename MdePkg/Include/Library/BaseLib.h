@@ -20,6 +20,26 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 //
 // Definitions for architecture-specific types
 //
+#if   defined (MDE_CPU_EL64) // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!
+///
+/// The IA-32 architecture context buffer used by SetJump() and LongJump().
+///
+typedef struct {
+  UINT32                            Ebx;
+  UINT32                            Esi;
+  UINT32                            Edi;
+  UINT32                            Ebp;
+  UINT32                            Esp;
+  UINT32                            Eip;
+} BASE_LIBRARY_JUMP_BUFFER;
+
+#define BASE_LIBRARY_JUMP_BUFFER_ALIGNMENT 4
+
+#endif // defined (MDE_CPU_EL64)
+
+//
+// Definitions for architecture-specific types
+//
 #if   defined (MDE_CPU_IA32)
 ///
 /// The IA-32 architecture context buffer used by SetJump() and LongJump().

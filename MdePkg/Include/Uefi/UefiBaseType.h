@@ -241,6 +241,11 @@ typedef union {
 #define EFI_IMAGE_MACHINE_X64             0x8664
 
 ///
+/// PE32+ Machine type for ELBRUS 64 UEFI images.
+///
+#define EFI_IMAGE_MACHINE_EL64            0x0E64
+
+///
 /// PE32+ Machine type for ARM mixed ARM and Thumb/Thumb2 images.
 ///
 #define EFI_IMAGE_MACHINE_ARMTHUMB_MIXED  0x01C2
@@ -295,6 +300,15 @@ typedef union {
 #define EFI_IMAGE_MACHINE_TYPE_SUPPORTED(Machine) ((Machine) == EFI_IMAGE_MACHINE_EBC)
 
 #define EFI_IMAGE_MACHINE_CROSS_TYPE_SUPPORTED(Machine) (FALSE) 
+
+#elif defined(MDE_CPU_EL64)
+
+// TODO !!!!!!!!!!!!!!!!!!!!!!!
+#define EFI_IMAGE_MACHINE_TYPE_SUPPORTED(Machine) \
+  (((Machine) == EFI_IMAGE_MACHINE_EL64) || ((Machine) == EFI_IMAGE_MACHINE_EBC))
+
+// TODO !!!!!!!!!!!!!!!!!!!!!!!
+#define EFI_IMAGE_MACHINE_CROSS_TYPE_SUPPORTED(Machine) (FALSE)
 
 #else
 #error Unknown Processor Type
