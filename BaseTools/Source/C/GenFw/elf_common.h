@@ -185,6 +185,7 @@ typedef struct {
 #define EM_X86_64	62	/* Advanced Micro Devices x86-64 */
 #define	EM_AMD64	EM_X86_64	/* Advanced Micro Devices x86-64 (compat) */
 #define EM_AARCH64	183	/* ARM 64bit Architecture */
+#define EM_ELBRUS	0xAF
 
 /* Non-standard or deprecated. */
 #define EM_486		6	/* Intel i486. */

@@ -1,3 +1,6 @@
+OUTPUT_FORMAT("elf64-e2k", "elf64-e2k", "elf64-e2k")
+OUTPUT_ARCH(elbrus-v4)
+
 /** @file
 
   Unified linker script for GCC based builds
