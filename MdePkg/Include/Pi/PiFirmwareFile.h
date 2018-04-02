@@ -178,6 +178,8 @@ typedef struct {
 
 #define IS_FFS_FILE2(FfsFileHeaderPtr) \
     (((((EFI_FFS_FILE_HEADER *) (UINTN) FfsFileHeaderPtr)->Attributes) & FFS_ATTRIB_LARGE_FILE) == FFS_ATTRIB_LARGE_FILE)
+	// TODO EFI_FFS_FILE_HEADER -->> EFI_FFS_FILE_HEADER2 ???????????????
+
 
 #define FFS_FILE_SIZE(FfsFileHeaderPtr) \
     ((UINT32) (*((UINT32 *) ((EFI_FFS_FILE_HEADER *) (UINTN) FfsFileHeaderPtr)->Size) & 0x00ffffff))

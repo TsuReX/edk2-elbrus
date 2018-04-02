@@ -1,2 +1,5 @@
 Build/
 tags/
+.cproject
+.project
+.settings/
