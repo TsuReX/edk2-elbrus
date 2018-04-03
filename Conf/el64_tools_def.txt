@@ -1,0 +1,84 @@
+DEFINE ELBRUS_EL64_PREFIX			= /home/cf/e2k/mcst.rel-23-0/bin-1.23.07.toolchain.e2k-v2-linux.cross/e2k-linux-lcc
+DEFINE ELBRUS_EL64_OBJCOPY			= /home/cf/e2k/mcst.rel-23-0/bin-1.23.07.toolchain.e2k-v2-linux.cross/e2k-linux-objcopy
+DEFINE ELBRUS_EL64_SLINK			= /home/cf/e2k/mcst.rel-23-0/bin-1.23.07.toolchain.e2k-v2-linux.cross/e2k-linux-ar
+DEFINE ELBRUS_EL64_DLINK			= /home/cf/e2k/mcst.rel-23-0/bin-1.23.07.toolchain.e2k-v2-linux.cross/e2k-linux-ld
+DEFINE UNIX_IASL_BIN				= ENV(IASL_PREFIX)iasl
+
+#*****************************************
+
+DEFINE LCC_EL32_EL64_ASLDLINK_FLAGS	= -nostdlib --pie --gc-sections -m elf64-e2k --entry _ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT)
+DEFINE LCC_ASM_FLAGS				= -c -x assembler -imacros $(DEST_DIR_DEBUG)/AutoGen.h
+DEFINE LCC_PP_FLAGS					= -E -x assembler-with-cpp -include $(DEST_DIR_DEBUG)/AutoGen.h
+DEFINE LCC_VFRPP_FLAGS				= -x c -E -P -DVFRCOMPILE --include $(DEST_DIR_DEBUG)/$(MODULE_NAME)StrDefs.h
+DEFINE LCC_ASLPP_FLAGS				= -x c -E -include AutoGen.h
+DEFINE LCC_ASLCC_FLAGS				= -x c
+DEFINE LCC_WINDRES_FLAGS			= -J rc -O coff
+DEFINE IASL_FLAGS					=
+DEFINE IASL_OUTFLAGS				= -p
+DEFINE LCC_DLINK_FLAGS_COMMON		= -nostdlib --pie
+
+#DEFINE LCC_EL32_EL64_DLINK_FLAGS	= -nostdlib --pie --gc-sections -m elf64-e2k --entry _$(IMAGE_ENTRY_POINT) --file-alignment 0x20 --section-alignment 0x20 -Map $(DEST_DIR_DEBUG)/$(BASE_NAME).map
+#DEFINE LCC_EL64_RC_FLAGS			= -I binary -O elf64-x86-64 -B i386 --rename-section .data=.hii # ???
+#DEFINE LCC_EL64_DLINK2_FLAGS		= --defsym=PECOFF_HEADER_SIZE=0x228 --script=$(EDK_TOOLS_PATH)/Scripts/GccBase.lds
+
+##########################################
+
+DEBUG_ELBRUS_EL64_CC_FLAGS			= -DUSING_LTO -g -fno-strict-aliasing -Wall -include AutoGen.h -fno-common
+DEBUG_ELBRUS_EL64_DLINK_FLAGS		= --entry $(IMAGE_ENTRY_POINT) -u $(IMAGE_ENTRY_POINT) -Map $(DEST_DIR_DEBUG)/$(BASE_NAME).map -Os -A elbrus-1c+ -m elf64_e2k
+
+RELEASE_ELBRUS_EL64_CC_FLAGS		= -g -fno-strict-aliasing -Wall -include AutoGen.h -fno-common -flto -DUSING_LTO -Os -Wno-unused-but-set-variable
+RELEASE_ELBRUS_EL64_DLINK_FLAGS		= --entry $(IMAGE_ENTRY_POINT) -u $(IMAGE_ENTRY_POINT) -Map $(DEST_DIR_DEBUG)/$(BASE_NAME).map  -Os
+
+##########################################
+
+*_*_*_GENFW_PATH					= GenFw
+*_*_*_GENFW_FLAGS					=
+*_ELBRUS_*_*_FAMILY					= LCC
+*_ELBRUS_*_MAKE_PATH				= make
+
+*_ELBRUS_EL64_OBJCOPY_PATH			= DEF(ELBRUS_EL64_OBJCOPY)
+*_ELBRUS_EL64_CC_PATH				= DEF(ELBRUS_EL64_PREFIX)
+*_ELBRUS_EL64_SLINK_PATH			= DEF(ELBRUS_EL64_SLINK)
+*_ELBRUS_EL64_DLINK_PATH			= DEF(ELBRUS_EL64_DLINK)
+
+##########################################
+
+#DEFINE ELBRUS_EL64_ASLDLINK		= 
+#DEFINE ELBRUS_EL64_ASM				= 
+#DEFINE ELBRUS_EL64_PP				= 
+#DEFINE ELBRUS_EL64_VFRPP			= 
+#DEFINE ELBRUS_EL64_ASLCC			= 
+#DEFINE ELBRUS_EL64_ASLPP			= 
+
+#DEFINE LCC_EL32_EL64_DLINK_COMMON	= -nostdlib --pie --gc-sections -m elf64-e2k
+#DEFINE LCC_EL64_DLINK_FLAGS		= --entry $(IMAGE_ENTRY_POINT) -u $(IMAGE_ENTRY_POINT) -Map $(DEST_DIR_DEBUG)/$(BASE_NAME).map 
+#DEFINE LCC_EL64_CC_FLAGS			= -g -fno-strict-aliasing -Wall -include AutoGen.h -fno-common 			  			   
+#DEFINE LCC_DLINK2_FLAGS_COMMON		= --script=$(EDK_TOOLS_PATH)/Scripts/GccBase.lds
+
+
+#*_ELBRUS_EL64_ASLDLINK_PATH		= DEF(ELBRUS_EL64_PREFIX)
+#*_ELBRUS_EL64_ASM_PATH				= DEF(ELBRUS_EL64_PREFIX)
+#*_ELBRUS_EL64_PP_PATH				= DEF(ELBRUS_EL64_PREFIX)
+#*_ELBRUS_EL64_VFRPP_PATH			= DEF(ELBRUS_EL64_PREFIX)
+#*_ELBRUS_EL64_ASLCC_PATH			= DEF(ELBRUS_EL64_PREFIX)
+#*_ELBRUS_EL64_ASLPP_PATH			= DEF(ELBRUS_EL64_PREFIX)
+#*_ELBRUS_EL64_RC_PATH				= DEF(ELBRUS_EL64_OBJCOPY)
+#*_ELBRUS_EL64_ASLCC_FLAGS			= DEF(LCC_ASLCC_FLAGS) -m64 -fno-lto
+#*_ELBRUS_EL64_ASLDLINK_FLAGS		= DEF(LCC_EL32_EL64_ASLDLINK_FLAGS) -Wl,-m,elf_x86_64 # ???
+#*_ELBRUS_EL64_ASM_FLAGS			= DEF(LCC_ASM_FLAGS) -m64
+#*_ELBRUS_EL64_DLINK2_FLAGS			= DEF(LCC_EL64_DLINK2_FLAGS)
+#*_ELBRUS_EL64_RC_FLAGS				= DEF(LCC_EL64_RC_FLAGS)
+#*_ELBRUS_EL64_OBJCOPY_FLAGS		=
+#*_ELBRUS_EL64_NASM_FLAGS			= -f elf64
+
+#*_ELBRUS_*_*_DLL					= ENV(GCC5_DLL) 				# ???
+#*_ELBRUS_*_ASL_PATH				= DEF(UNIX_IASL_BIN)
+#*_ELBRUS_*_PP_FLAGS				= DEF(LCC_PP_FLAGS)
+#*_ELBRUS_*_ASLPP_FLAGS				= DEF(LCC_ASLPP_FLAGS)
+#*_ELBRUS_*_ASLCC_FLAGS				= DEF(LCC_ASLCC_FLAGS)
+#*_ELBRUS_*_VFRPP_FLAGS				= DEF(LCC_VFRPP_FLAGS)
+#*_ELBRUS_*_APP_FLAGS				=
+#*_ELBRUS_*_ASL_FLAGS				= DEF(IASL_FLAGS)
+#*_ELBRUS_*_ASL_OUTFLAGS			= DEF(IASL_OUTFLAGS)
+
+##########################################
