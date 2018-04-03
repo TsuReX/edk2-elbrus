@@ -25,7 +25,7 @@
   LIBRARY_CLASS                  = BaseLib 
 
 #
-#  VALID_ARCHITECTURES           = IA32 X64 IPF EBC ARM AARCH64
+#  VALID_ARCHITECTURES           = IA32 X64 IPF EBC ARM AARCH64 EL64
 #
 
 [Sources]
@@ -65,6 +65,9 @@
   String.c
   FilePaths.c
   BaseLibInternals.h
+
+[Sources.EL64]
+	El64/LShiftU64.c
 
 [Sources.Ia32]
   Ia32/Wbinvd.c | MSFT 

@@ -45,7 +45,7 @@ VOID EFIAPI SecStartup( IN UINT32 SizeOfRam,
 		 				IN VOID *BootFirmwareVolume ) {
 
 	EFI_SEC_PEI_HAND_OFF SecCoreData;
-	IA32_DESCRIPTOR IdtDescriptor;
+//	IA32_DESCRIPTOR IdtDescriptor;
 	SEC_IDT_TABLE IdtTableInStack;
 	UINT32 Index;
 	UINT32 PeiStackSize;
@@ -86,10 +86,10 @@ VOID EFIAPI SecStartup( IN UINT32 SizeOfRam,
 				(VOID*) &mIdtEntryTemplate, sizeof(UINT64));
 	}
 
-	IdtDescriptor.Base = (UINTN) & IdtTableInStack.IdtTable;
-	IdtDescriptor.Limit = (UINT16)(sizeof(IdtTableInStack.IdtTable) - 1);
+//	IdtDescriptor.Base = (UINTN) & IdtTableInStack.IdtTable;
+//	IdtDescriptor.Limit = (UINT16)(sizeof(IdtTableInStack.IdtTable) - 1);
 
-	AsmWriteIdtr(&IdtDescriptor);
+//	AsmWriteIdtr(&IdtDescriptor);
 
 	//
 	// Update the base address and length of Pei temporary memory
@@ -126,10 +126,10 @@ VOID EFIAPI SecStartup( IN UINT32 SizeOfRam,
  @param[in] SecCoreData    The first input parameter of InitializeDebugAgent().
 
  **/
-VOID EFIAPI SecStartupPhase2( IN VOID *SecCoreData) {
+VOID EFIAPI SecStartupPhase2( IN VOID *_SecCoreData) {
 
 	EFI_PEI_CORE_ENTRY_POINT PeiCoreEntryPoint;
-	EFI_SEC_PEI_HAND_OFF *SecCoreData = (EFI_SEC_PEI_HAND_OFF *) SecCoreData;
+	EFI_SEC_PEI_HAND_OFF *SecCoreData = (EFI_SEC_PEI_HAND_OFF *) _SecCoreData;
 
 	//
 	// Find Pei Core entry point.
@@ -178,7 +178,7 @@ EFI_STATUS EFIAPI SecTemporaryRamSupport( IN CONST EFI_PEI_SERVICES **PeiService
 										  IN EFI_PHYSICAL_ADDRESS PermanentMemBase,
 										  IN UINTN CopySize) {
 
-	IA32_DESCRIPTOR IdtDescriptor;
+//	IA32_DESCRIPTOR IdtDescriptor;
 	VOID* OldHeap;
 	VOID* NewHeap;
 	VOID* OldStack;
@@ -242,7 +242,7 @@ EFI_STATUS EFIAPI SecTemporaryRamSupport( IN CONST EFI_PEI_SERVICES **PeiService
 	// Rebase IDT table in permanent memory
 	//
 //	AsmReadIdtr(&IdtDescriptor); // TODO Remove or implement analog for Elbrus
-	IdtDescriptor.Base = IdtDescriptor.Base - (UINTN) OldStack + (UINTN) NewStack;
+//	IdtDescriptor.Base = IdtDescriptor.Base - (UINTN) OldStack + (UINTN) NewStack;
 //	AsmWriteIdtr(&IdtDescriptor); // TODO Remove or implement analog for Elbrus
 
 	//
@@ -254,7 +254,8 @@ EFI_STATUS EFIAPI SecTemporaryRamSupport( IN CONST EFI_PEI_SERVICES **PeiService
 	// immediatly, also we need fixup the stack change caused by new call into
 	// permenent memory.
 	//
-	SecSwitchStack((UINT32) (UINTN) OldStack, (UINT32) (UINTN) NewStack);
+	// TODO Implement
+//	SecSwitchStack((UINT32) (UINTN) OldStack, (UINT32) (UINTN) NewStack);
 
 	SaveAndSetDebugTimerInterrupt(OldStatus);
 

@@ -6,7 +6,7 @@
 #include <Library/BaseLib.h>
 #include <Library/PeCoffGetEntryPointLib.h>
 
-#include "../../CorebootModulePkgEL64/SecCore/SecMain.h"
+#include "SecMain.h"
 
 /**
  Find core image base.

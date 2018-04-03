@@ -38,12 +38,12 @@
 	DebugLib
 	UefiCpuLib
 #	PcdLib
-#	PeCoffGetEntryPointLib
-#	PeCoffExtraActionLib
+	PeCoffGetEntryPointLib
+	PeCoffExtraActionLib
 
 [Ppis]
 #	gEfiSecPlatformInformationPpiGuid	# PPI ALWAYS_PRODUCED
-#	gEfiTemporaryRamSupportPpiGuid		# PPI ALWAYS_PRODUCED
+	gEfiTemporaryRamSupportPpiGuid		# PPI ALWAYS_PRODUCED
 
 [Pcd]
 #	gUefiCorebootModulePkgTokenSpaceGuid.PcdPayloadFdMemBase

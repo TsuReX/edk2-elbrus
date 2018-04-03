@@ -104,7 +104,10 @@
 #	Basic
 #
 	BaseLib						|	MdePkg/Library/BaseLib/BaseLib.inf
-	BaseMemoryLib				|	MdePkg/Library/BaseMemoryLibRepStr/BaseMemoryLibRepStr.inf
+
+#!!!BaseMemoryLib				|	MdePkg/Library/BaseMemoryLibRepStr/BaseMemoryLibRepStr.inf
+	BaseMemoryLib				|	MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
+
 #	SynchronizationLib			|	MdePkg/Library/BaseSynchronizationLib/BaseSynchronizationLib.inf
 #	PrintLib					|	MdePkg/Library/BasePrintLib/BasePrintLib.inf
 #	CpuLib						|	MdePkg/Library/BaseCpuLib/BaseCpuLib.inf
@@ -118,7 +121,7 @@
 #!endif
 #	PciSegmentLib				|	MdePkg/Library/BasePciSegmentLibPci/BasePciSegmentLibPci.inf
 #	PeCoffLib					|	MdePkg/Library/BasePeCoffLib/BasePeCoffLib.inf
-#	PeCoffGetEntryPointLib		|	MdePkg/Library/BasePeCoffGetEntryPointLib/BasePeCoffGetEntryPointLib.inf
+	PeCoffGetEntryPointLib		|	MdePkg/Library/BasePeCoffGetEntryPointLib/BasePeCoffGetEntryPointLib.inf
 #	CacheMaintenanceLib			|	MdePkg/Library/BaseCacheMaintenanceLib/BaseCacheMaintenanceLib.inf
 
 #
@@ -168,22 +171,24 @@
 #  IoApicLib|PcAtChipsetPkg/Library/BaseIoApicLib/BaseIoApicLib.inf
 #  CbPlatformSupportLib|CorebootModulePkg/Library/CbPlatformSupportLibNull/CbPlatformSupportLibNull.inf
 
-  #
-  # Misc
-  #
-#  DebugPrintErrorLevelLib|MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
-#  PerformanceLib|MdePkg/Library/BasePerformanceLibNull/BasePerformanceLibNull.inf
-#!if $(SOURCE_DEBUG_ENABLE) == TRUE
-#  PeCoffExtraActionLib|SourceLevelDebugPkg/Library/PeCoffExtraActionLibDebug/PeCoffExtraActionLibDebug.inf
-#  DebugCommunicationLib|SourceLevelDebugPkg/Library/DebugCommunicationLibSerialPort/DebugCommunicationLibSerialPort.inf
-#!else
-#  PeCoffExtraActionLib|MdePkg/Library/BasePeCoffExtraActionLibNull/BasePeCoffExtraActionLibNull.inf
-#  DebugAgentLib|MdeModulePkg/Library/DebugAgentLibNull/DebugAgentLibNull.inf
-#!endif
-#  CbParseLib|CorebootModulePkg/Library/CbParseLib/CbParseLib.inf
-#  DebugLib|MdeModulePkg/Library/PeiDxeDebugLibReportStatusCode/PeiDxeDebugLibReportStatusCode.inf
-#  LockBoxLib|MdeModulePkg/Library/LockBoxNullLib/LockBoxNullLib.inf
-#  FileExplorerLib|MdeModulePkg/Library/FileExplorerLib/FileExplorerLib.inf
+#
+# Misc
+#
+#	DebugPrintErrorLevelLib		|	MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
+#	PerformanceLib				|	MdePkg/Library/BasePerformanceLibNull/BasePerformanceLibNull.inf
+
+!if $(SOURCE_DEBUG_ENABLE) == TRUE
+	PeCoffExtraActionLib		|	SourceLevelDebugPkg/Library/PeCoffExtraActionLibDebug/PeCoffExtraActionLibDebug.inf
+	DebugCommunicationLib		|	SourceLevelDebugPkg/Library/DebugCommunicationLibSerialPort/DebugCommunicationLibSerialPort.inf
+!else
+	PeCoffExtraActionLib		|	MdePkg/Library/BasePeCoffExtraActionLibNull/BasePeCoffExtraActionLibNull.inf
+	DebugAgentLib				|	MdeModulePkg/Library/DebugAgentLibNull/DebugAgentLibNull.inf
+!endif
+
+#	CbParseLib					|	CorebootModulePkg/Library/CbParseLib/CbParseLib.inf
+#	DebugLib					|	MdeModulePkg/Library/PeiDxeDebugLibReportStatusCode/PeiDxeDebugLibReportStatusCode.inf
+#	LockBoxLib					|	MdeModulePkg/Library/LockBoxNullLib/LockBoxNullLib.inf
+#	FileExplorerLib				|	MdeModulePkg/Library/FileExplorerLib/FileExplorerLib.inf
 
 [LibraryClasses.EL64.SEC]
 	DebugLib				|	MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf
