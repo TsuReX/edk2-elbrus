@@ -104,7 +104,7 @@
 #################################
 #	Entry point
 #################################
-#	PeiCoreEntryPoint			|	MdePkg/Library/PeiCoreEntryPoint/PeiCoreEntryPoint.inf
+	PeiCoreEntryPoint			|	MdePkg/Library/PeiCoreEntryPoint/PeiCoreEntryPoint.inf
 #	PeimEntryPoint				|	MdePkg/Library/PeimEntryPoint/PeimEntryPoint.inf
 #	DxeCoreEntryPoint			|	MdePkg/Library/DxeCoreEntryPoint/DxeCoreEntryPoint.inf
 #	UefiDriverEntryPoint		|	MdePkg/Library/UefiDriverEntryPoint/UefiDriverEntryPoint.inf
@@ -131,9 +131,9 @@
 #	PciExpressLib				|	MdePkg/Library/BasePciExpressLib/BasePciExpressLib.inf
 #!endif
 #	PciSegmentLib				|	MdePkg/Library/BasePciSegmentLibPci/BasePciSegmentLibPci.inf
-#	PeCoffLib					|	MdePkg/Library/BasePeCoffLib/BasePeCoffLib.inf
+	PeCoffLib					|	MdePkg/Library/BasePeCoffLib/BasePeCoffLib.inf
 	PeCoffGetEntryPointLib		|	MdePkg/Library/BasePeCoffGetEntryPointLib/BasePeCoffGetEntryPointLib.inf
-#	CacheMaintenanceLib			|	MdePkg/Library/BaseCacheMaintenanceLib/BaseCacheMaintenanceLib.inf
+	CacheMaintenanceLib			|	MdePkg/Library/BaseCacheMaintenanceLib/BaseCacheMaintenanceLib.inf
 
 
 #################################
@@ -147,8 +147,11 @@
 #	HiiLib						|	MdeModulePkg/Library/UefiHiiLib/UefiHiiLib.inf
 #	DevicePathLib				|	MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib.inf
 #	UefiDecompressLib			|	MdePkg/Library/BaseUefiDecompressLib/BaseUefiDecompressLib.inf
+
 #	PeiServicesTablePointerLib	|	MdePkg/Library/PeiServicesTablePointerLibIdt/PeiServicesTablePointerLibIdt.inf
-#	PeiServicesLib				|	MdePkg/Library/PeiServicesLib/PeiServicesLib.inf
+	PeiServicesTablePointerLib	|	MdePkg/Library/PeiServicesTablePointerLib/PeiServicesTablePointerLib.inf			# TODO Check correctness
+
+	PeiServicesLib				|	MdePkg/Library/PeiServicesLib/PeiServicesLib.inf
 #	DxeServicesLib				|	MdePkg/Library/DxeServicesLib/DxeServicesLib.inf
 #	DxeServicesTableLib			|	MdePkg/Library/DxeServicesTableLib/DxeServicesTableLib.inf
 	UefiCpuLib					|	UefiCpuPkg/Library/BaseUefiCpuLib/BaseUefiCpuLib.inf
@@ -160,7 +163,7 @@
 #################################
 #	UefiUsbLib					|	MdePkg/Library/UefiUsbLib/UefiUsbLib.inf
 #	UefiScsiLib					|	MdePkg/Library/UefiScsiLib/UefiScsiLib.inf
-#	OemHookStatusCodeLib		|	MdeModulePkg/Library/OemHookStatusCodeLibNull/OemHookStatusCodeLibNull.inf
+	OemHookStatusCodeLib		|	MdeModulePkg/Library/OemHookStatusCodeLibNull/OemHookStatusCodeLibNull.inf
 #	GenericBdsLib				|	IntelFrameworkModulePkg/Library/GenericBdsLib/GenericBdsLib.inf
 #	CapsuleLib					|	MdeModulePkg/Library/DxeCapsuleLibNull/DxeCapsuleLibNull.inf
 #	SecurityManagementLib		|	MdeModulePkg/Library/DxeSecurityManagementLib/DxeSecurityManagementLib.inf
@@ -190,8 +193,8 @@
 #################################
 # Misc
 #################################
-#	DebugPrintErrorLevelLib		|	MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
-#	PerformanceLib				|	MdePkg/Library/BasePerformanceLibNull/BasePerformanceLibNull.inf
+	DebugPrintErrorLevelLib		|	MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
+	PerformanceLib				|	MdePkg/Library/BasePerformanceLibNull/BasePerformanceLibNull.inf
 !if $(SOURCE_DEBUG_ENABLE) == TRUE
 	PeCoffExtraActionLib		|	SourceLevelDebugPkg/Library/PeCoffExtraActionLibDebug/PeCoffExtraActionLibDebug.inf
 	DebugCommunicationLib		|	SourceLevelDebugPkg/Library/DebugCommunicationLibSerialPort/DebugCommunicationLibSerialPort.inf
@@ -200,7 +203,7 @@
 	DebugAgentLib				|	MdeModulePkg/Library/DebugAgentLibNull/DebugAgentLibNull.inf
 !endif
 #	CbParseLib					|	CorebootModulePkg/Library/CbParseLib/CbParseLib.inf
-#	DebugLib					|	MdeModulePkg/Library/PeiDxeDebugLibReportStatusCode/PeiDxeDebugLibReportStatusCode.inf
+	DebugLib					|	MdeModulePkg/Library/PeiDxeDebugLibReportStatusCode/PeiDxeDebugLibReportStatusCode.inf
 #	LockBoxLib					|	MdeModulePkg/Library/LockBoxNullLib/LockBoxNullLib.inf
 #	FileExplorerLib				|	MdeModulePkg/Library/FileExplorerLib/FileExplorerLib.inf
 
@@ -215,10 +218,10 @@
 
 
 [LibraryClasses.EL64.PEI_CORE, LibraryClasses.EL64.PEIM]
-#	PcdLib						|	MdePkg/Library/PeiPcdLib/PeiPcdLib.inf
-#	HobLib						|	MdePkg/Library/PeiHobLib/PeiHobLib.inf
-#	MemoryAllocationLib			|	MdePkg/Library/PeiMemoryAllocationLib/PeiMemoryAllocationLib.inf
-#	ReportStatusCodeLib			|	MdeModulePkg/Library/PeiReportStatusCodeLib/PeiReportStatusCodeLib.inf
+	PcdLib						|	MdePkg/Library/PeiPcdLib/PeiPcdLib.inf
+	HobLib						|	MdePkg/Library/PeiHobLib/PeiHobLib.inf
+	MemoryAllocationLib			|	MdePkg/Library/PeiMemoryAllocationLib/PeiMemoryAllocationLib.inf
+	ReportStatusCodeLib			|	MdeModulePkg/Library/PeiReportStatusCodeLib/PeiReportStatusCodeLib.inf
 #	ExtractGuidedSectionLib		|	MdePkg/Library/PeiExtractGuidedSectionLib/PeiExtractGuidedSectionLib.inf
 #!if $(SOURCE_DEBUG_ENABLE)
 #	DebugAgentLib				|	SourceLevelDebugPkg/Library/DebugAgent/SecPeiDebugAgentLib.inf
@@ -379,7 +382,7 @@
 #################################
 #	PEI Core
 #################################
-#	MdeModulePkg/Core/Pei/PeiMain.inf
+	MdeModulePkg/Core/Pei/PeiMain.inf
 
 
 #################################
@@ -492,7 +495,7 @@
 
 
 #################################
-# Usb Support
+#	Usb Support
 #################################
 #	MdeModulePkg/Bus/Pci/UhciDxe/UhciDxe.inf
 #	MdeModulePkg/Bus/Pci/EhciDxe/EhciDxe.inf
@@ -503,12 +506,12 @@
 
 
 #################################
-# OHCI support
+#	OHCI support
 #################################	
 #	QuarkSocPkg/QuarkSouthCluster/Usb/Ohci/Dxe/OhciDxe.inf
 
 #################################
-# ISA Support
+#	ISA Support
 #################################
 #	MdeModulePkg/Universal/SerialDxe/SerialDxe.inf
 #	PcAtChipsetPkg/IsaAcpiDxe/IsaAcpi.inf
@@ -516,7 +519,7 @@
 #	IntelFrameworkModulePkg/Bus/Isa/Ps2KeyboardDxe/Ps2keyboardDxe.inf
 
 #################################
-# Console Support
+#	Console Support
 #################################
 #	MdeModulePkg/Universal/Console/ConPlatformDxe/ConPlatformDxe.inf
 #	MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitterDxe.inf
@@ -524,7 +527,7 @@
 #	MdeModulePkg/Universal/Console/TerminalDxe/TerminalDxe.inf
 
 #################################
-# Framebuffer Gop
+#	Framebuffer Gop
 #################################
 #	CorebootPayloadPkg/FbGop/FbGop.inf
 
@@ -534,7 +537,7 @@
 #!if $(SHELL_TYPE) == BUILD_SHELL
 
 [PcdsFixedAtBuild]
-## This flag is used to control initialization of the shell library
+#	This flag is used to control initialization of the shell library
 #	This should be FALSE for compiling the shell application itself only.
 #	gEfiShellPkgTokenSpaceGuid.PcdShellLibAutoInitialize|FALSE
 

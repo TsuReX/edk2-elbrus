@@ -28,8 +28,11 @@
 
 
 #
-#  VALID_ARCHITECTURES           = IA32 X64 IPF EBC ARM AARCH64
+#  VALID_ARCHITECTURES           = EL64 IA32 X64 IPF EBC ARM AARCH64
 #
+
+[Sources.EL64] 
+  EL64Cache.c	# TODO Implement
 
 [Sources.IA32]
   X86Cache.c

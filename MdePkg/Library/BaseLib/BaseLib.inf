@@ -66,9 +66,13 @@
   FilePaths.c
   BaseLibInternals.h
 
-[Sources.EL64]
-	El64/LShiftU64.c
-
+[Sources.EL64]		
+#	El64/LShiftU64.c				# TODO Check correctness
+	El64/Unaligned.c				# TODO Check correctness
+	El64/InternalSwitchStack.c		# TODO Check correctness
+	Math64.c						# TODO Check correctness
+	El64/CpuBreakpoint.c			# TODO Implement
+	
 [Sources.Ia32]
   Ia32/Wbinvd.c | MSFT 
   Ia32/WriteMm7.c | MSFT 
