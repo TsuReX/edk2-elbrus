@@ -1,16 +1,21 @@
 /** @file
  C functions in SEC
 
- **/
+**/
 
 #include "SecMain.h"
 
-EFI_PEI_TEMPORARY_RAM_SUPPORT_PPI gSecTemporaryRamSupportPpi =
-									{ SecTemporaryRamSupport };
+EFI_PEI_TEMPORARY_RAM_SUPPORT_PPI gSecTemporaryRamSupportPpi = {
+	SecTemporaryRamSupport
+};
 
-EFI_PEI_PPI_DESCRIPTOR mPeiSecPlatformInformationPpi[] = { {
-		(EFI_PEI_PPI_DESCRIPTOR_PPI | EFI_PEI_PPI_DESCRIPTOR_TERMINATE_LIST),
-		&gEfiTemporaryRamSupportPpiGuid, &gSecTemporaryRamSupportPpi } };
+EFI_PEI_PPI_DESCRIPTOR mPeiSecPlatformInformationPpi[] = {
+	{
+/*FLAGS*/	(EFI_PEI_PPI_DESCRIPTOR_PPI | EFI_PEI_PPI_DESCRIPTOR_TERMINATE_LIST),
+/*GUID*/	&gEfiTemporaryRamSupportPpiGuid,
+/*PPI_PTR*/	&gSecTemporaryRamSupportPpi
+	}
+};
 
 //
 // These are IDT entries pointing to 10:FFFFFFE4h.
@@ -63,7 +68,7 @@ VOID EFIAPI SecStartup( IN UINT32 SizeOfRam,
 	// Initialize floating point operating environment
 	// to be compliant with UEFI spec.
 	//
-	InitializeFloatingPointUnits();
+	InitializeFloatingPointUnits();  // TODO Implement ???
 
 	// |-------------------|---->
 	// |Idt Table          |
@@ -148,8 +153,9 @@ VOID EFIAPI SecStartupPhase2( IN VOID *_SecCoreData) {
 	// Transfer the control to the PEI core
 	//
 	ASSERT(PeiCoreEntryPoint != NULL);
-	(*PeiCoreEntryPoint)(SecCoreData,
-			(EFI_PEI_PPI_DESCRIPTOR *) &mPeiSecPlatformInformationPpi);
+	(*PeiCoreEntryPoint)( SecCoreData,
+						 (EFI_PEI_PPI_DESCRIPTOR *) &mPeiSecPlatformInformationPpi
+						);
 
 	//
 	// Should not come here.
@@ -254,7 +260,8 @@ EFI_STATUS EFIAPI SecTemporaryRamSupport( IN CONST EFI_PEI_SERVICES **PeiService
 	// immediatly, also we need fixup the stack change caused by new call into
 	// permenent memory.
 	//
-	// TODO Implement
+
+	// TODO Implement !!!!!!!!!!!!!!!!!!!!!!!!!
 //	SecSwitchStack((UINT32) (UINTN) OldStack, (UINT32) (UINTN) NewStack);
 
 	SaveAndSetDebugTimerInterrupt(OldStatus);
