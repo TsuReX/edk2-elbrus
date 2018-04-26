@@ -132,7 +132,7 @@ VOID CbPeiReportRemainedFvs ( VOID ) {
 }
 
 /**
-  Based on memory base, size and type, build resource descripter HOB.
+  Based on  base, size and type, build resource descripter HOB.
 
   @param  Base    Memory base address.
   @param  Size    Memory size.
@@ -243,7 +243,7 @@ EFI_STATUS EFIAPI CbPeiEntryPoint ( IN EFI_PEI_FILE_HANDLE		FileHandle,
 
 	BuildResourceDescriptorHob ( ResourceType, ResourceAttribute,
 								 PhysicalStart, NumberOfBytes );
-
+	// +1
 	//*************************************************************************
 
 	ResourceType = EFI_RESOURCE_MEMORY_RESERVED;
@@ -263,6 +263,8 @@ EFI_STATUS EFIAPI CbPeiEntryPoint ( IN EFI_PEI_FILE_HANDLE		FileHandle,
 
 	BuildResourceDescriptorHob ( ResourceType, ResourceAttribute,
 								 PhysicalStart, NumberOfBytes );
+	// +1
+	//*************************************************************************
 
 	ZeroMem (&CbMemInfo, sizeof(CbMemInfo));
 
@@ -271,6 +273,8 @@ EFI_STATUS EFIAPI CbPeiEntryPoint ( IN EFI_PEI_FILE_HANDLE		FileHandle,
 	if (EFI_ERROR(Status)) {
 		return Status;
 	}
+	// +N1
+	//*************************************************************************
 
 	LowMemorySize = CbMemInfo.UsableLowMemTop;
 
@@ -278,9 +282,9 @@ EFI_STATUS EFIAPI CbPeiEntryPoint ( IN EFI_PEI_FILE_HANDLE		FileHandle,
 
 	DEBUG ((EFI_D_INFO, "SystemLowMemTop 0x%x\n", CbMemInfo.SystemLowMemTop));
 
-//
-// Should be 64k aligned
-//
+	//
+	// Should be 64k aligned
+	//
 	PeiMemBase = (LowMemorySize - PeiMemSize) & (~(BASE_64KB - 1));
 	DEBUG((EFI_D_ERROR, "PeiMemBase: 0x%lx.\n", PeiMemBase));
 	DEBUG((EFI_D_ERROR, "PeiMemSize: 0x%lx.\n", PeiMemSize));
@@ -288,31 +292,42 @@ EFI_STATUS EFIAPI CbPeiEntryPoint ( IN EFI_PEI_FILE_HANDLE		FileHandle,
 	Status = PeiServicesInstallPeiMemory ( PeiMemBase, PeiMemSize );
 	ASSERT_EFI_ERROR (Status);
 
-//
-// Set cache on the physical memory
-//
+	//
+	// Set cache on the physical memory
+	//
+	// TODO Implementation for Elbrus
 	MtrrSetMemoryAttribute (BASE_1MB, LowMemorySize - BASE_1MB, CacheWriteBack);
 	MtrrSetMemoryAttribute ((0 + 0x1000), (0xA0000 - 0x1000), CacheWriteBack);
 
-//
-// Create Memory Type Information HOB
-//
+	//*************************************************************************
+	//
+	// Create Memory Type Information HOB
+	//
 	BuildGuidDataHob ( &gEfiMemoryTypeInformationGuid,
 					   mDefaultMemoryTypeInformation,
 					   sizeof(mDefaultMemoryTypeInformation));
 
-//
-// Create Fv hob
-//
+	// +1
+	//*************************************************************************
+
+	//
+	// Create Fv hob
+	//
 	CbPeiReportRemainedFvs ();
+
+	// +1
+	//*************************************************************************
 
 	BuildMemoryAllocationHob ( PcdGet32 (PcdPayloadFdMemBase),
 							   PcdGet32 (PcdPayloadFdMemSize),
 							   EfiBootServicesData );
 
-//
-// Build CPU memory space and IO space hob
-//
+	// +1
+	//*************************************************************************
+
+	//
+	// Build CPU memory space and IO space hob
+	//
 	AsmCpuid (0x80000000, &RegEax, NULL, NULL, NULL);
 
 	if (RegEax >= 0x80000008) {
@@ -325,29 +340,34 @@ EFI_STATUS EFIAPI CbPeiEntryPoint ( IN EFI_PEI_FILE_HANDLE		FileHandle,
 
 		PhysicalAddressBits  = 36;
 	}
-//
-// Create a CPU hand-off information
-//
+	//
+	// Create a CPU hand-off information
+	//
 	BuildCpuHob (PhysicalAddressBits, 16);
 
-//
-// Report Local APIC range
-//
+	// +1
+	//*************************************************************************
+
+	//
+	// Report Local APIC range
+	//
 	BuildMemoryMappedIoRangeHob (0xFEC80000, SIZE_512KB);
 
-//
-// Boot mode
-//
+	// +1
+	//*************************************************************************
+	//
+	// Boot mode
+	//
 	Status = PeiServicesSetBootMode (BOOT_WITH_FULL_CONFIGURATION);
 	ASSERT_EFI_ERROR (Status);
 
 	Status = PeiServicesInstallPpi (mPpiBootMode);
 	ASSERT_EFI_ERROR (Status);
 
-//
-// Set pcd to save the upper coreboot header in case the dxecore will
-// erase 0~4k memory
-//
+	//
+	// Set pcd to save the upper coreboot header in case the dxecore will
+	// erase 0~4k memory
+	//
 	pCbHeader = NULL;
 	if ( (CbParseGetCbHeader (1, &pCbHeader) == RETURN_SUCCESS)
 		 &&
@@ -358,9 +378,10 @@ EFI_STATUS EFIAPI CbPeiEntryPoint ( IN EFI_PEI_FILE_HANDLE		FileHandle,
 		ASSERT_EFI_ERROR (Status);
 	}
 
-//
-// Create guid hob for system tables like acpi table and smbios table
-//
+	//*************************************************************************
+	//
+	// Create guid hob for system tables like acpi table and smbios table
+	//
 	pAcpiTable = NULL;
 	AcpiTableSize = 0;
 	pSmbiosTable = NULL;
@@ -379,6 +400,7 @@ EFI_STATUS EFIAPI CbPeiEntryPoint ( IN EFI_PEI_FILE_HANDLE		FileHandle,
 	pSystemTableInfo = BuildGuidHob (&gUefiSystemTableInfoGuid, sizeof (SYSTEM_TABLE_INFO));
 	ASSERT (pSystemTableInfo != NULL);
 
+
 	pSystemTableInfo->AcpiTableBase = (UINT64) (UINTN)pAcpiTable;
 	pSystemTableInfo->AcpiTableSize = AcpiTableSize;
 	pSystemTableInfo->SmbiosTableBase = (UINT64) (UINTN)pSmbiosTable;
@@ -389,9 +411,12 @@ EFI_STATUS EFIAPI CbPeiEntryPoint ( IN EFI_PEI_FILE_HANDLE		FileHandle,
 			pSystemTableInfo->SmbiosTableBase, pSystemTableInfo->SmbiosTableSize));
 	DEBUG ((EFI_D_ERROR, "Create system table info guid hob\n"));
 
-//
-// Create guid hob for acpi board information
-//
+	// +1
+	//*************************************************************************
+
+	//
+	// Create guid hob for acpi board information
+	//
 	Status = CbParseFadtInfo (&PmCtrlRegBase, &PmTimerRegBase, &ResetRegAddress,
 							  &ResetValue, &PmEvtBase, &PmGpeEnBase);
 	ASSERT_EFI_ERROR (Status);
@@ -405,7 +430,8 @@ EFI_STATUS EFIAPI CbPeiEntryPoint ( IN EFI_PEI_FILE_HANDLE		FileHandle,
 	pAcpiBoardInfo->PmEvtBase = (UINT64)PmEvtBase;
 	pAcpiBoardInfo->PmGpeEnBase = (UINT64)PmGpeEnBase;
 	DEBUG ((EFI_D_ERROR, "Create acpi board info guid hob\n"));
-
+	// +1
+	//*************************************************************************
 //
 // Create guid hob for frame buffer information
 //
@@ -425,19 +451,22 @@ EFI_STATUS EFIAPI CbPeiEntryPoint ( IN EFI_PEI_FILE_HANDLE		FileHandle,
 	else {
 		DEBUG ((EFI_D_ERROR, "CbPeiEntryPoint() 2\n"));
 	}
+	// +1
+	//*************************************************************************
 
-//
-// Parse platform specific information from coreboot.
-//
-	Status = CbParsePlatformInfo ();
+	//
+	// Parse platform specific information from coreboot.
+	//
+	Status = CbParsePlatformInfo (); // Empty function
 	if (EFI_ERROR (Status)) {
 		DEBUG ((EFI_D_ERROR, "Error when parsing platform info, Status = %r\n", Status));
 		return Status;
 	}
 
-//
-// Mask off all legacy 8259 interrupt sources
-//
+	//
+	// Mask off all legacy 8259 interrupt sources
+	//
+	// TODO Implement for Elbrus
 	IoWrite8 (LEGACY_8259_MASK_REGISTER_MASTER, 0xFF);
 	IoWrite8 (LEGACY_8259_MASK_REGISTER_SLAVE,  0xFF);
 

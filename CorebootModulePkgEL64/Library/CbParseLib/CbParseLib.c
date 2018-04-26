@@ -265,8 +265,11 @@ CbParseMemoryInfo (
   //
   // Get the coreboot memory table
   //
+  // Search in the range [0x0 0x1000]
   rec = (struct cb_memory *)FindCbTag (0, CB_TAG_MEMORY);
   if (rec == NULL) {
+	// Search in range [PcdCbHeaderPointer PcdCbHeaderPointer + 0x1000]
+	// PcdCbHeaderPointer = 0x0 // TODO Know real value
     rec = (struct cb_memory *)FindCbTag ((VOID *)(UINTN)PcdGet32 (PcdCbHeaderPointer), CB_TAG_MEMORY);
   }
 

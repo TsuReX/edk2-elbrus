@@ -22,10 +22,10 @@ ErasePolarity = 1
 BlockSize     = 0x1000
 NumBlocks     = 0x410
 
-0x00000000|0x030000
+0x00000000|0x050000
 FV = SECPEIFV
 
-#0x00030000|0x3E0000
+#0x00050000|0x3E0000
 #FV = DXEFV
 
 ################################################################################
@@ -50,7 +50,7 @@ READ_LOCK_STATUS   = TRUE
 
 INF CorebootModulePkgEL64/SecCore/SecCore.inf
 
-#INF MdeModulePkg/Core/Pei/PeiMain.inf
+INF MdeModulePkg/Core/Pei/PeiMain.inf
 #INF MdeModulePkg/Universal/PCD/Pei/Pcd.inf
 #INF MdeModulePkg/Universal/ReportStatusCodeRouter/Pei/ReportStatusCodeRouterPei.inf
 #INF MdeModulePkg/Universal/StatusCodeHandler/Pei/StatusCodeHandlerPei.inf

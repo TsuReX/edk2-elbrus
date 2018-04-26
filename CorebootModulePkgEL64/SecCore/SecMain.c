@@ -51,7 +51,7 @@ VOID EFIAPI SecStartup( IN UINT32 SizeOfRam,
 
 	EFI_SEC_PEI_HAND_OFF SecCoreData;
 //	IA32_DESCRIPTOR IdtDescriptor;
-	SEC_IDT_TABLE IdtTableInStack;
+//	SEC_IDT_TABLE IdtTableInStack;
 	UINT32 Index;
 	UINT32 PeiStackSize;
 
@@ -85,11 +85,11 @@ VOID EFIAPI SecStartup( IN UINT32 SizeOfRam,
 	// |                   |
 	// |-------------------|---->  TempRamBase
 
-	IdtTableInStack.PeiService = 0;
-	for (Index = 0; Index < SEC_IDT_ENTRY_COUNT; Index++) {
-		CopyMem((VOID*) &IdtTableInStack.IdtTable[Index],
-				(VOID*) &mIdtEntryTemplate, sizeof(UINT64));
-	}
+//	IdtTableInStack.PeiService = 0;
+//	for (Index = 0; Index < SEC_IDT_ENTRY_COUNT; Index++) {
+//		CopyMem((VOID*) &IdtTableInStack.IdtTable[Index],
+//				(VOID*) &mIdtEntryTemplate, sizeof(UINT64));
+//	}
 
 //	IdtDescriptor.Base = (UINTN) & IdtTableInStack.IdtTable;
 //	IdtDescriptor.Limit = (UINT16)(sizeof(IdtTableInStack.IdtTable) - 1);
@@ -103,18 +103,22 @@ VOID EFIAPI SecStartup( IN UINT32 SizeOfRam,
 	SecCoreData.BootFirmwareVolumeBase = BootFirmwareVolume;
 	SecCoreData.BootFirmwareVolumeSize = (UINTN)(
 			0x100000000ULL - (UINTN) BootFirmwareVolume); // 4GB - BFVPosition
+
 	SecCoreData.TemporaryRamBase = (VOID*) (UINTN) TempRamBase;
 	SecCoreData.TemporaryRamSize = SizeOfRam;
+
 	SecCoreData.PeiTemporaryRamBase = SecCoreData.TemporaryRamBase;
 	SecCoreData.PeiTemporaryRamSize = SizeOfRam - PeiStackSize;
-	SecCoreData.StackBase = (VOID*) (UINTN)(
-			TempRamBase + SecCoreData.PeiTemporaryRamSize);
+
+	SecCoreData.StackBase = (VOID*) (UINTN)(TempRamBase +
+									 SecCoreData.PeiTemporaryRamSize);
 	SecCoreData.StackSize = PeiStackSize;
 
 	//
 	// Initialize Debug Agent to support source level debug in
 	// SEC/PEI phases before memory ready.
 	//
+	// DebugAgentLibNull.c
 	InitializeDebugAgent(DEBUG_AGENT_INIT_PREMEM_SEC,
 						 &SecCoreData,
 						 SecStartupPhase2);
@@ -226,6 +230,7 @@ EFI_STATUS EFIAPI SecTemporaryRamSupport( IN CONST EFI_PEI_SERVICES **PeiService
 	// in PEI phase after memory ready.
 	// It will build HOB and fix up the pointer in IDT table.
 	//
+	// DebugAgentLibNull.c
 	InitializeDebugAgent(DEBUG_AGENT_INIT_POSTMEM_SEC,
 						 (VOID *) &DebugAgentContext, NULL);
 
