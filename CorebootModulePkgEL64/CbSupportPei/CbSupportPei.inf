@@ -26,7 +26,7 @@
 #
 # The following information is for reference only and not required by the build tools.
 #
-#  VALID_ARCHITECTURES           = IA32 X64
+#  VALID_ARCHITECTURES           = EL64 IA32 X64
 #
 
 [Sources]
@@ -38,7 +38,7 @@
   MdeModulePkg/MdeModulePkg.dec
   IntelFrameworkPkg/IntelFrameworkPkg.dec
   IntelFrameworkModulePkg/IntelFrameworkModulePkg.dec
-  CorebootModulePkg/CorebootModulePkg.dec
+  CorebootModulePkgEL64/CorebootModulePkg.dec
   UefiCpuPkg/UefiCpuPkg.dec
 
 [LibraryClasses]

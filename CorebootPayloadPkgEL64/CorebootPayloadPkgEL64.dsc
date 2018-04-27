@@ -105,7 +105,7 @@
 #	Entry point
 #################################
 	PeiCoreEntryPoint			|	MdePkg/Library/PeiCoreEntryPoint/PeiCoreEntryPoint.inf
-#	PeimEntryPoint				|	MdePkg/Library/PeimEntryPoint/PeimEntryPoint.inf
+	PeimEntryPoint				|	MdePkg/Library/PeimEntryPoint/PeimEntryPoint.inf
 #	DxeCoreEntryPoint			|	MdePkg/Library/DxeCoreEntryPoint/DxeCoreEntryPoint.inf
 #	UefiDriverEntryPoint		|	MdePkg/Library/UefiDriverEntryPoint/UefiDriverEntryPoint.inf
 #	UefiApplicationEntryPoint	|	MdePkg/Library/UefiApplicationEntryPoint/UefiApplicationEntryPoint.inf
@@ -120,16 +120,16 @@
 	BaseMemoryLib				|	MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
 
 #	SynchronizationLib			|	MdePkg/Library/BaseSynchronizationLib/BaseSynchronizationLib.inf
-#	PrintLib					|	MdePkg/Library/BasePrintLib/BasePrintLib.inf
-#	CpuLib						|	MdePkg/Library/BaseCpuLib/BaseCpuLib.inf
-#	IoLib						|	MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsic.inf
-#!if $(PCIE_BASE) == 0
-#	PciLib						|	MdePkg/Library/BasePciLibCf8/BasePciLibCf8.inf
-#	PciCf8Lib					|	MdePkg/Library/BasePciCf8Lib/BasePciCf8Lib.inf
-#!else
-#	PciLib						|	MdePkg/Library/BasePciLibPciExpress/BasePciLibPciExpress.inf
-#	PciExpressLib				|	MdePkg/Library/BasePciExpressLib/BasePciExpressLib.inf
-#!endif
+	PrintLib					|	MdePkg/Library/BasePrintLib/BasePrintLib.inf
+	CpuLib						|	MdePkg/Library/BaseCpuLib/BaseCpuLib.inf
+	IoLib						|	MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsic.inf
+!if $(PCIE_BASE) == 0
+	PciLib						|	MdePkg/Library/BasePciLibCf8/BasePciLibCf8.inf
+	PciCf8Lib					|	MdePkg/Library/BasePciCf8Lib/BasePciCf8Lib.inf
+!else
+	PciLib						|	MdePkg/Library/BasePciLibPciExpress/BasePciLibPciExpress.inf
+	PciExpressLib				|	MdePkg/Library/BasePciExpressLib/BasePciExpressLib.inf
+!endif
 #	PciSegmentLib				|	MdePkg/Library/BasePciSegmentLibPci/BasePciSegmentLibPci.inf
 	PeCoffLib					|	MdePkg/Library/BasePeCoffLib/BasePeCoffLib.inf
 	PeCoffGetEntryPointLib		|	MdePkg/Library/BasePeCoffGetEntryPointLib/BasePeCoffGetEntryPointLib.inf
@@ -174,20 +174,20 @@
 #################################
 #	CPU
 #################################
-#	MtrrLib						|	UefiCpuPkg/Library/MtrrLib/MtrrLib.inf
-#	LocalApicLib				|	UefiCpuPkg/Library/BaseXApicLib/BaseXApicLib.inf
+	MtrrLib						|	UefiCpuPkg/Library/MtrrLib/MtrrLib.inf
+	LocalApicLib				|	UefiCpuPkg/Library/BaseXApicLib/BaseXApicLib.inf
 
 
 #################################
 #	Platform
 #################################
-#	TimerLib					|	CorebootPayloadPkg/Library/AcpiTimerLib/AcpiTimerLib.inf
-#	ResetSystemLib				|	CorebootPayloadPkg/Library/ResetSystemLib/ResetSystemLib.inf
-#	SerialPortLib				|	CorebootModulePkg/Library/BaseSerialPortLib16550/BaseSerialPortLib16550.inf
-#	PlatformHookLib				|	CorebootPayloadPkg/Library/PlatformHookLib/PlatformHookLib.inf
-#	PlatformBdsLib				|	CorebootModulePkg/Library/CorebootBdsLib/PlatformBds.inf
+#	TimerLib					|	CorebootPayloadPkgEL64/Library/AcpiTimerLib/AcpiTimerLib.inf
+#	ResetSystemLib				|	CorebootPayloadPkgEL64/Library/ResetSystemLib/ResetSystemLib.inf
+	SerialPortLib				|	CorebootModulePkgEL64/Library/BaseSerialPortLib16550/BaseSerialPortLib16550.inf
+	PlatformHookLib				|	CorebootPayloadPkgEL64/Library/PlatformHookLib/PlatformHookLib.inf
+#	PlatformBdsLib				|	CorebootModulePkgEL64/Library/CorebootBdsLib/PlatformBds.inf
 #	IoApicLib					|	PcAtChipsetPkg/Library/BaseIoApicLib/BaseIoApicLib.inf
-#	CbPlatformSupportLib		|	CorebootModulePkg/Library/CbPlatformSupportLibNull/CbPlatformSupportLibNull.inf
+	CbPlatformSupportLib		|	CorebootModulePkgEL64/Library/CbPlatformSupportLibNull/CbPlatformSupportLibNull.inf
 
 
 #################################
@@ -202,7 +202,7 @@
 	PeCoffExtraActionLib		|	MdePkg/Library/BasePeCoffExtraActionLibNull/BasePeCoffExtraActionLibNull.inf
 	DebugAgentLib				|	MdeModulePkg/Library/DebugAgentLibNull/DebugAgentLibNull.inf
 !endif
-#	CbParseLib					|	CorebootModulePkg/Library/CbParseLib/CbParseLib.inf
+	CbParseLib					|	CorebootModulePkgEL64/Library/CbParseLib/CbParseLib.inf
 	DebugLib					|	MdeModulePkg/Library/PeiDxeDebugLibReportStatusCode/PeiDxeDebugLibReportStatusCode.inf
 #	LockBoxLib					|	MdeModulePkg/Library/LockBoxNullLib/LockBoxNullLib.inf
 #	FileExplorerLib				|	MdeModulePkg/Library/FileExplorerLib/FileExplorerLib.inf
@@ -388,14 +388,14 @@
 #################################
 #	PEIM
 #################################
-#	MdeModulePkg/Universal/PCD/Pei/Pcd.inf {
-#		<LibraryClasses>
-#			PcdLib	|	MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
-#	}
-#	MdeModulePkg/Universal/ReportStatusCodeRouter/Pei/ReportStatusCodeRouterPei.inf
-#	MdeModulePkg/Universal/StatusCodeHandler/Pei/StatusCodeHandlerPei.inf
-#	CorebootModulePkg/CbSupportPei/CbSupportPei.inf
-#	CorebootModulePkg/YurchPeim/YurchPeim.inf
+	MdeModulePkg/Universal/PCD/Pei/Pcd.inf {
+		<LibraryClasses>
+			PcdLib	|	MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
+	}
+	MdeModulePkg/Universal/ReportStatusCodeRouter/Pei/ReportStatusCodeRouterPei.inf
+	MdeModulePkg/Universal/StatusCodeHandler/Pei/StatusCodeHandlerPei.inf
+	CorebootModulePkgEL64/CbSupportPei/CbSupportPei.inf
+#	CorebootModulePkgEL64/YurchPeim/YurchPeim.inf
 #	MdeModulePkg/Core/DxeIplPeim/DxeIpl.inf
 
 

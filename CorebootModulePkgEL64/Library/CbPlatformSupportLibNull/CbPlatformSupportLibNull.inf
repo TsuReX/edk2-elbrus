@@ -32,4 +32,4 @@
 
 [Packages]
   MdePkg/MdePkg.dec
-  CorebootModulePkg/CorebootModulePkg.dec
+  CorebootModulePkgEL64/CorebootModulePkgEL64.dec

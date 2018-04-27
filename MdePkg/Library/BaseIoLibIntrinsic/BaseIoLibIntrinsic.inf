@@ -30,13 +30,17 @@
 
 
 #
-#  VALID_ARCHITECTURES           = IA32 X64 EBC IPF ARM AARCH64
+#  VALID_ARCHITECTURES           = EL64 IA32 X64 EBC IPF ARM AARCH64
 #
 
 [Sources]
   IoLibMmioBuffer.c
   BaseIoLibIntrinsicInternal.h
   IoHighLevel.c
+
+[Sources.EL64]
+  El64/IoLib.c
+  El64/IoLibGcc.c
 
 [Sources.IA32]
   IoLibGcc.c    | GCC

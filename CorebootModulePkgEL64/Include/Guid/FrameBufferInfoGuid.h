@@ -18,7 +18,8 @@
 ///
 /// Frame Buffer Information GUID
 ///
-extern EFI_GUID gUefiFrameBufferInfoGuid;
+// TODO Uncomment
+//extern EFI_GUID gUefiFrameBufferInfoGuid;
 
 typedef struct {
   UINT8 Position; // Position of the color

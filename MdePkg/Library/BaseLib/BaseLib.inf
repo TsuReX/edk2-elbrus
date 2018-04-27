@@ -72,6 +72,8 @@
 	El64/InternalSwitchStack.c		# TODO Check correctness
 	Math64.c						# TODO Check correctness
 	El64/CpuBreakpoint.c			# TODO Implement
+	El64/MemoryFence.c				# TODO Implement
+	El64/GetInterruptState.c		# TODO Implement
 	
 [Sources.Ia32]
   Ia32/Wbinvd.c | MSFT 

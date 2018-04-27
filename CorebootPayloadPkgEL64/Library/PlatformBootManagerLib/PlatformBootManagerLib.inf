@@ -38,7 +38,7 @@
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
   IntelFrameworkModulePkg/IntelFrameworkModulePkg.dec
-  CorebootPayloadPkg/CorebootPayloadPkg.dec
+  CorebootPayloadPkgEL64/CorebootPayloadPkgEL64.dec
 
 [LibraryClasses]
   BaseLib
