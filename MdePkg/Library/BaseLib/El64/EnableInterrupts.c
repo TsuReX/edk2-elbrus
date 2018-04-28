@@ -1,5 +1,5 @@
 /** @file
-  IA-32/x64 GetInterruptState()
+  EnableInterrupts function
 
   Copyright (c) 2006 - 2008, Intel Corporation. All rights reserved.<BR>
   This program and the accompanying materials
@@ -13,30 +13,21 @@
 **/
 
 
-#include "BaseLibInternals.h"
 
 
 /**
-  Retrieves the current CPU interrupt state.
-
-  Returns TRUE is interrupts are currently enabled. Otherwise
-  returns FALSE.
-
-  @retval TRUE  CPU interrupts are enabled.
-  @retval FALSE CPU interrupts are disabled.
+  Enables CPU interrupts.
 
 **/
-BOOLEAN
+VOID
 EFIAPI
-GetInterruptState (
+EnableInterrupts (
   VOID
   )
 {
-
-	// TODO Implement, stubs were implemented
-  EL64_EFLAGS32		EFlags;
-  EFlags.UintN = AsmReadEflags ();
-  return (BOOLEAN)(1 == EFlags.Bits.IF);
+	// TODO Implement
+//  _asm {
+//    sti
+//  }
 }
-
 

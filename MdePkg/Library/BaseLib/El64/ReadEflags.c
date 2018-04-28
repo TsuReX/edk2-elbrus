@@ -1,5 +1,5 @@
 /** @file
-  IA-32/x64 GetInterruptState()
+  AsmReadEflags function
 
   Copyright (c) 2006 - 2008, Intel Corporation. All rights reserved.<BR>
   This program and the accompanying materials
@@ -13,30 +13,25 @@
 **/
 
 
-#include "BaseLibInternals.h"
 
 
 /**
-  Retrieves the current CPU interrupt state.
+  Reads the current value of the EFLAGS register.
 
-  Returns TRUE is interrupts are currently enabled. Otherwise
-  returns FALSE.
+  Reads and returns the current value of the EFLAGS register. This function is
+  only available on IA-32 and x64. This returns a 32-bit value on IA-32 and a
+  64-bit value on x64.
 
-  @retval TRUE  CPU interrupts are enabled.
-  @retval FALSE CPU interrupts are disabled.
+  @return EFLAGS on IA-32 or RFLAGS on x64.
 
 **/
-BOOLEAN
-EFIAPI
-GetInterruptState (
-  VOID
-  )
-{
 
-	// TODO Implement, stubs were implemented
-  EL64_EFLAGS32		EFlags;
-  EFlags.UintN = AsmReadEflags ();
-  return (BOOLEAN)(1 == EFlags.Bits.IF);
+
+UINTN EFIAPI AsmReadEflags (VOID) {
+// TODO Implement
+//  __asm {
+//    pushfd
+//    pop     eax
+//  }
+	return 0;
 }
-
-
