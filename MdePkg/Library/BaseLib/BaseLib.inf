@@ -71,15 +71,20 @@
 	El64/Unaligned.c				# TODO Check correctness
 	El64/InternalSwitchStack.c		# TODO Check correctness
 	Math64.c						# TODO Check correctness
-	El64/CpuBreakpoint.c			# TODO Implement
+#	El64/CpuBreakpoint.c			# TODO Implement
 	El64/MemoryFence.c				# TODO Implement
 	El64/GetInterruptState.c		# TODO Implement
-	El64/ReadEflags.c				# TODO Implement
-	El64/DisableInterrupts.c		# TODO Implement
-	El64/EnableInterrupts.c			# TODO Implement
+#	El64/ReadEflags.c				# TODO Implement
+#	El64/DisableInterrupts.c		# TODO Implement
+#	El64/EnableInterrupts.c			# TODO Implement
 	El64/CpuId.c					# TODO Implement
 	El64/CpuIdEx.c					# TODO Implement
 	El64/GccInline.c				# TODO Implement
+	El64/DisableCache.c				# TODO Implement
+	El64/EnableCache.c				# TODO Implement
+	El64/El64Msr.c					# TODO Is this realy needed???
+	
+	
 	
 [Sources.Ia32]
   Ia32/Wbinvd.c | MSFT 
