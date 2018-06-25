@@ -2,6 +2,8 @@ DEFINE ELBRUS_EL64_PREFIX			= /home/cf/e2k/mcst.rel-23-0/bin-1.23.07.toolchain.e
 DEFINE ELBRUS_EL64_OBJCOPY			= /home/cf/e2k/mcst.rel-23-0/bin-1.23.07.toolchain.e2k-v2-linux.cross/e2k-linux-objcopy
 DEFINE ELBRUS_EL64_SLINK			= /home/cf/e2k/mcst.rel-23-0/bin-1.23.07.toolchain.e2k-v2-linux.cross/e2k-linux-ar
 DEFINE ELBRUS_EL64_DLINK			= /home/cf/e2k/mcst.rel-23-0/bin-1.23.07.toolchain.e2k-v2-linux.cross/e2k-linux-ld
+DEFINE ELBRUS_EL64_ASM				= /home/cf/e2k/mcst.rel-23-0/bin-1.23.07.toolchain.e2k-v2-linux.cross/e2k-linux-as
+DEFINE ELBRUS_EL64_PP				= /home/cf/e2k/mcst.rel-23-0/bin-1.23.07.toolchain.e2k-v2-linux.cross/e2k-linux-cpp
 DEFINE UNIX_IASL_BIN				= ENV(IASL_PREFIX)iasl
 
 #*****************************************
@@ -40,12 +42,15 @@ RELEASE_ELBRUS_EL64_DLINK_FLAGS		= --entry $(IMAGE_ENTRY_POINT) -u $(IMAGE_ENTRY
 *_ELBRUS_EL64_CC_PATH				= DEF(ELBRUS_EL64_PREFIX)
 *_ELBRUS_EL64_SLINK_PATH			= DEF(ELBRUS_EL64_SLINK)
 *_ELBRUS_EL64_DLINK_PATH			= DEF(ELBRUS_EL64_DLINK)
+*_ELBRUS_EL64_ASM_PATH				= DEF(ELBRUS_EL64_ASM)
+*_ELBRUS_EL64_ASM_FLAGS				= 
+*_ELBRUS_EL64_PP_PATH				= DEF(ELBRUS_EL64_PP)
+*_ELBRUS_EL64_PP_FLAGS				= 
 
 ##########################################
 
 #DEFINE ELBRUS_EL64_ASLDLINK		= 
-#DEFINE ELBRUS_EL64_ASM				= 
-#DEFINE ELBRUS_EL64_PP				= 
+
 #DEFINE ELBRUS_EL64_VFRPP			= 
 #DEFINE ELBRUS_EL64_ASLCC			= 
 #DEFINE ELBRUS_EL64_ASLPP			= 
@@ -57,7 +62,6 @@ RELEASE_ELBRUS_EL64_DLINK_FLAGS		= --entry $(IMAGE_ENTRY_POINT) -u $(IMAGE_ENTRY
 
 
 #*_ELBRUS_EL64_ASLDLINK_PATH		= DEF(ELBRUS_EL64_PREFIX)
-#*_ELBRUS_EL64_ASM_PATH				= DEF(ELBRUS_EL64_PREFIX)
 #*_ELBRUS_EL64_PP_PATH				= DEF(ELBRUS_EL64_PREFIX)
 #*_ELBRUS_EL64_VFRPP_PATH			= DEF(ELBRUS_EL64_PREFIX)
 #*_ELBRUS_EL64_ASLCC_PATH			= DEF(ELBRUS_EL64_PREFIX)

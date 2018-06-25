@@ -275,6 +275,6 @@ EFI_STATUS EFIAPI SecTemporaryRamSupport( IN CONST EFI_PEI_SERVICES **PeiService
 }
 
 // TODO REMOVE
-void _ModuleEntryPoint() {
-
-}
+//void _ModuleEntryPoint() {
+//	SecStartup(0x11112222, 0x33334444,0x55556666);
+//}

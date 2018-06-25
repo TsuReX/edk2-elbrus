@@ -20,7 +20,7 @@
 
 [Sources]
 #	el64/Stack.S
-#	el64/SecEntry.S
+	el64/SecEntry.s
 	SecMain.c
 	SecMain.h
 	FindPeiCore.c

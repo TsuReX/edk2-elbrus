@@ -22,6 +22,11 @@ ErasePolarity = 1
 BlockSize     = 0x1000
 NumBlocks     = 0x410
 
+#0x00000000|0x00001000
+#DATA = {
+#	0x12, 0x23, 0x34, 0x45
+#}
+
 0x00000000|0x150000
 FV = SECPEIFV
 
@@ -55,7 +60,6 @@ INF MdeModulePkg/Universal/PCD/Pei/Pcd.inf
 INF MdeModulePkg/Universal/ReportStatusCodeRouter/Pei/ReportStatusCodeRouterPei.inf
 INF MdeModulePkg/Universal/StatusCodeHandler/Pei/StatusCodeHandlerPei.inf
 INF CorebootModulePkgEL64/CbSupportPei/CbSupportPei.inf
-#INF CorebootModulePkg/YurchPeim/YurchPeim.inf
 #INF MdeModulePkg/Core/DxeIplPeim/DxeIpl.inf
 
 ################################################################################
