@@ -20,7 +20,7 @@ EFI_PEI_PPI_DESCRIPTOR mPeiSecPlatformInformationPpi[] = {
 //
 // These are IDT entries pointing to 10:FFFFFFE4h.
 //
-UINT64 mIdtEntryTemplate = 0xffff8e000010ffe4ULL;
+//UINT64 mIdtEntryTemplate = 0xffff8e000010ffe4ULL;
 
 /**
  Caller provided function to be invoked at the end of InitializeDebugAgent().
@@ -50,9 +50,8 @@ VOID EFIAPI SecStartup( IN UINT32 SizeOfRam,
 		 				IN VOID *BootFirmwareVolume ) {
 
 	EFI_SEC_PEI_HAND_OFF SecCoreData;
-//	IA32_DESCRIPTOR IdtDescriptor;
-//	SEC_IDT_TABLE IdtTableInStack;
-	UINT32 Index;
+
+//	UINT32 Index;
 	UINT32 PeiStackSize;
 
 	PeiStackSize = (SizeOfRam >> 1);
@@ -63,38 +62,6 @@ VOID EFIAPI SecStartup( IN UINT32 SizeOfRam,
 	// Process all libraries constructor function linked to SecCore.
 	//
 	ProcessLibraryConstructorList();
-
-	//
-	// Initialize floating point operating environment
-	// to be compliant with UEFI spec.
-	//
-	InitializeFloatingPointUnits();  // TODO Implement ???
-
-	// |-------------------|---->
-	// |Idt Table          |
-	// |-------------------|
-	// |PeiService Pointer |    PeiStackSize
-	// |-------------------|
-	// |                   |
-	// |      Stack        |
-	// |-------------------|---->
-	// |                   |
-	// |                   |
-	// |      Heap         |    PeiTemporayRamSize
-	// |                   |
-	// |                   |
-	// |-------------------|---->  TempRamBase
-
-//	IdtTableInStack.PeiService = 0;
-//	for (Index = 0; Index < SEC_IDT_ENTRY_COUNT; Index++) {
-//		CopyMem((VOID*) &IdtTableInStack.IdtTable[Index],
-//				(VOID*) &mIdtEntryTemplate, sizeof(UINT64));
-//	}
-
-//	IdtDescriptor.Base = (UINTN) & IdtTableInStack.IdtTable;
-//	IdtDescriptor.Limit = (UINT16)(sizeof(IdtTableInStack.IdtTable) - 1);
-
-//	AsmWriteIdtr(&IdtDescriptor);
 
 	//
 	// Update the base address and length of Pei temporary memory
@@ -114,15 +81,7 @@ VOID EFIAPI SecStartup( IN UINT32 SizeOfRam,
 									 SecCoreData.PeiTemporaryRamSize);
 	SecCoreData.StackSize = PeiStackSize;
 
-	//
-	// Initialize Debug Agent to support source level debug in
-	// SEC/PEI phases before memory ready.
-	//
-	// DebugAgentLibNull.c
-	InitializeDebugAgent(DEBUG_AGENT_INIT_PREMEM_SEC,
-						 &SecCoreData,
-						 SecStartupPhase2);
-
+	SecStartupPhase2(&SecCoreData);
 }
 
 /**
@@ -158,7 +117,7 @@ VOID EFIAPI SecStartupPhase2( IN VOID *_SecCoreData) {
 	//
 	ASSERT(PeiCoreEntryPoint != NULL);
 	(*PeiCoreEntryPoint)( SecCoreData,
-						 (EFI_PEI_PPI_DESCRIPTOR *) &mPeiSecPlatformInformationPpi
+						 (EFI_PEI_PPI_DESCRIPTOR *)&mPeiSecPlatformInformationPpi
 						);
 
 	//
@@ -183,6 +142,7 @@ VOID EFIAPI SecStartupPhase2( IN VOID *_SecCoreData) {
  	 	 	 	 	 	 	   TemporaryMemoryBase > PermanentMemoryBase.
 
  **/
+
 EFI_STATUS EFIAPI SecTemporaryRamSupport( IN CONST EFI_PEI_SERVICES **PeiServices,
 										  IN EFI_PHYSICAL_ADDRESS TemporaryMemBase,
 										  IN EFI_PHYSICAL_ADDRESS PermanentMemBase,

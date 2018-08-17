@@ -953,8 +953,8 @@ typedef struct _EFI_SEC_PEI_HAND_OFF {
   ///
   /// Size of the boot firmware volume, in bytes.
   /// 
-  UINTN   BootFirmwareVolumeSize;
 
+  UINTN   BootFirmwareVolumeSize;
   ///
   /// Points to the first byte of the temporary RAM.
   /// 

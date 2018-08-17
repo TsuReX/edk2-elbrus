@@ -77,7 +77,7 @@ SecStartup (
   EFI_SEC_PEI_HAND_OFF        SecCoreData;
   IA32_DESCRIPTOR             IdtDescriptor;
   SEC_IDT_TABLE               IdtTableInStack;
-  UINT32                      Index;
+//  UINT32                      Index;
   UINT32                      PeiStackSize;
   EFI_STATUS                  Status;
 

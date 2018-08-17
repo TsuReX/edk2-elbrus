@@ -56,7 +56,7 @@ ASM_PFX(_ModuleEntryPoint):
 .global _ModuleEntryPoint
 _ModuleEntryPoint:
 
-	setwd wsz = 2, nfx = 1
+	setwd wsz = 4, nfx = 1
 
 	addd 0x0, 0x1, %dr0
 	addd 0x0, 0x2, %dr1
