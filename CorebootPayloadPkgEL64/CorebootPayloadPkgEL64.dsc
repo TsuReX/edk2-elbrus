@@ -17,7 +17,7 @@
 	FLASH_DEFINITION			=	CorebootPayloadPkgEL64/CorebootPayloadPkgEL64.fdf
 
 	DEFINE SECURE_BOOT_ENABLE	=	FALSE
-	DEFINE SOURCE_DEBUG_ENABLE	=	FALSE
+	DEFINE SOURCE_DEBUG_ENABLE	=	TRUE
 
 
 #################################
@@ -174,7 +174,7 @@ DEFINE PCI_SERIAL_PARAMETERS            = {0xff,0xff, 0x00,0x00, 0x0,0x20,0x1c,0
 #################################
 #	CPU
 #################################
-	MtrrLib						|	UefiCpuPkg/Library/MtrrLib/MtrrLib.inf
+#	MtrrLib						|	UefiCpuPkg/Library/MtrrLib/MtrrLib.inf
 	LocalApicLib				|	UefiCpuPkg/Library/BaseXApicLib/BaseXApicLib.inf
 
 
@@ -183,7 +183,11 @@ DEFINE PCI_SERIAL_PARAMETERS            = {0xff,0xff, 0x00,0x00, 0x0,0x20,0x1c,0
 #################################
 #	TimerLib					|	CorebootPayloadPkgEL64/Library/AcpiTimerLib/AcpiTimerLib.inf
 #	ResetSystemLib				|	CorebootPayloadPkgEL64/Library/ResetSystemLib/ResetSystemLib.inf
-	SerialPortLib				|	CorebootModulePkgEL64/Library/BaseSerialPortLib16550/BaseSerialPortLib16550.inf
+
+#Yurchenko
+#	SerialPortLib				|	CorebootModulePkgEL64/Library/BaseSerialPortLib16550/BaseSerialPortLib16550.inf
+	SerialPortLib				|	CorebootModulePkgEL64/Library/ElbrusSerialPortLib/ElbrusSerialPortLib.inf
+
 	PlatformHookLib				|	CorebootPayloadPkgEL64/Library/PlatformHookLib/PlatformHookLib.inf
 #	PlatformBdsLib				|	CorebootModulePkgEL64/Library/CorebootBdsLib/PlatformBds.inf
 #	IoApicLib					|	PcAtChipsetPkg/Library/BaseIoApicLib/BaseIoApicLib.inf
@@ -195,15 +199,19 @@ DEFINE PCI_SERIAL_PARAMETERS            = {0xff,0xff, 0x00,0x00, 0x0,0x20,0x1c,0
 #################################
 	DebugPrintErrorLevelLib		|	MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
 	PerformanceLib				|	MdePkg/Library/BasePerformanceLibNull/BasePerformanceLibNull.inf
-!if $(SOURCE_DEBUG_ENABLE) == TRUE
-	PeCoffExtraActionLib		|	SourceLevelDebugPkg/Library/PeCoffExtraActionLibDebug/PeCoffExtraActionLibDebug.inf
-	DebugCommunicationLib		|	SourceLevelDebugPkg/Library/DebugCommunicationLibSerialPort/DebugCommunicationLibSerialPort.inf
-!else
+#!if $(SOURCE_DEBUG_ENABLE) == TRUE
+#	PeCoffExtraActionLib		|	SourceLevelDebugPkg/Library/PeCoffExtraActionLibDebug/PeCoffExtraActionLibDebug.inf
+#	DebugCommunicationLib		|	SourceLevelDebugPkg/Library/DebugCommunicationLibSerialPort/DebugCommunicationLibSerialPort.inf
+#!else
 	PeCoffExtraActionLib		|	MdePkg/Library/BasePeCoffExtraActionLibNull/BasePeCoffExtraActionLibNull.inf
 	DebugAgentLib				|	MdeModulePkg/Library/DebugAgentLibNull/DebugAgentLibNull.inf
-!endif
+#!endif
 	CbParseLib					|	CorebootModulePkgEL64/Library/CbParseLib/CbParseLib.inf
-	DebugLib					|	MdeModulePkg/Library/PeiDxeDebugLibReportStatusCode/PeiDxeDebugLibReportStatusCode.inf
+
+#Yurchenko
+#	DebugLib					|	MdeModulePkg/Library/PeiDxeDebugLibReportStatusCode/PeiDxeDebugLibReportStatusCode.inf
+	DebugLib					|	MdePkg/Library/BaseDebugLibSerialPort/BaseDebugLibSerialPort.inf
+
 #	LockBoxLib					|	MdeModulePkg/Library/LockBoxNullLib/LockBoxNullLib.inf
 #	FileExplorerLib				|	MdeModulePkg/Library/FileExplorerLib/FileExplorerLib.inf
 
@@ -292,11 +300,11 @@ DEFINE PCI_SERIAL_PARAMETERS            = {0xff,0xff, 0x00,0x00, 0x0,0x20,0x1c,0
 [PcdsPatchableInModule.common]
 #	gEfiMdePkgTokenSpaceGuid.PcdReportStatusCodePropertyMask|0x7
 #	gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x8000004F
-#!if $(SOURCE_DEBUG_ENABLE)
-#	gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask|0x17
-#!else
-# 	gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask|0x2F
-#!endif
+!if $(SOURCE_DEBUG_ENABLE)
+	gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask|0x17
+!else
+ 	gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask|0x2F
+!endif
 
 #################################
 #	The following parameters are set by Library/PlatformHookLib

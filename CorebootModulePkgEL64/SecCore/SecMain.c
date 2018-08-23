@@ -116,6 +116,13 @@ VOID EFIAPI SecStartupPhase2( IN VOID *_SecCoreData) {
 	// Transfer the control to the PEI core
 	//
 	ASSERT(PeiCoreEntryPoint != NULL);
+
+//	while(1) {
+//		mas_write8(0xFFF01001, 0x23, MAS_STORE_IO, 2);
+//	}
+
+	PeiCoreEntryPoint = 0xBABADEDA;
+
 	(*PeiCoreEntryPoint)( SecCoreData,
 						 (EFI_PEI_PPI_DESCRIPTOR *)&mPeiSecPlatformInformationPpi
 						);

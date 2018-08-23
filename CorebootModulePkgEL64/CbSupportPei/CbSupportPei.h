@@ -25,7 +25,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #include <Library/BaseMemoryLib.h>
 #include <Library/HobLib.h>
 #include <Library/PcdLib.h>
-#include <Library/MtrrLib.h>
+//#include <Library/MtrrLib.h>
 #include <Library/IoLib.h>
 #include <Guid/SmramMemoryReserve.h>
 #include <Guid/MemoryTypeInformation.h>

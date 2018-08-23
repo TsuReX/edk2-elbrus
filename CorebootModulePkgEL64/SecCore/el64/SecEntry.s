@@ -56,13 +56,12 @@ ASM_PFX(_ModuleEntryPoint):
 .global _ModuleEntryPoint
 _ModuleEntryPoint:
 
-	setwd wsz = 4, nfx = 1
+	setwd wsz = 8, nfx = 1
 
-	addd 0x0, 0x1, %dr0
-	addd 0x0, 0x2, %dr1
-	addd 0x0, 0x3, %dr2
-	addd 0x0, 0xDEADBEAF, %dr3
+	addd 0x0, 0x00010000, %dr10
+	addd 0x0, 0x00080000, %dr11
+	addd 0x0, 0x00800000, %dr12
 
 	disp %ctpr1, SecStartup
-	call %ctpr1, wbs = 0
+	call %ctpr1, wbs = 5
 
