@@ -4,6 +4,8 @@
 **/
 
 #include "SecMain.h"
+#include "SecDebug.h"
+#include "Library/DebugLib.h"
 
 EFI_PEI_TEMPORARY_RAM_SUPPORT_PPI gSecTemporaryRamSupportPpi = {
 	SecTemporaryRamSupport
@@ -117,11 +119,22 @@ VOID EFIAPI SecStartupPhase2( IN VOID *_SecCoreData) {
 	//
 	ASSERT(PeiCoreEntryPoint != NULL);
 
-//	while(1) {
-//		mas_write8(0xFFF01001, 0x23, MAS_STORE_IO, 2);
-//	}
+	dbg_write(0x23);
+	dbg_write(0x24);
+	dbg_write(0x0A);
+	dbg_write(0x0D);
 
-	PeiCoreEntryPoint = 0xBABADEDA;
+//	DEBUG( (0xFFFFFFFF, "123\n\r\0") );
+
+	DebugPrint(0xFFFFFFFF, "12345\n\r\0");
+
+	dbg_write(0x24);
+	dbg_write(0x23);
+	dbg_write(0x0A);
+	dbg_write(0x0D);
+//	PeiCoreEntryPoint = 0xBABADEDA;
+//	PeiCoreEntryPoint = 0x0;
+
 
 	(*PeiCoreEntryPoint)( SecCoreData,
 						 (EFI_PEI_PPI_DESCRIPTOR *)&mPeiSecPlatformInformationPpi
@@ -156,87 +169,87 @@ EFI_STATUS EFIAPI SecTemporaryRamSupport( IN CONST EFI_PEI_SERVICES **PeiService
 										  IN UINTN CopySize) {
 
 //	IA32_DESCRIPTOR IdtDescriptor;
-	VOID* OldHeap;
-	VOID* NewHeap;
-	VOID* OldStack;
-	VOID* NewStack;
-	DEBUG_AGENT_CONTEXT_POSTMEM_SEC DebugAgentContext;
-	BOOLEAN OldStatus;
-	UINTN PeiStackSize;
-
-	PeiStackSize = (CopySize >> 1);
-
-	ASSERT(PeiStackSize < CopySize);
-
-	//
-	// |-------------------|---->
-	// |      Stack        |    PeiStackSize
-	// |-------------------|---->
-	// |      Heap         |    PeiTemporayRamSize
-	// |-------------------|---->  TempRamBase
-	//
-	// |-------------------|---->
-	// |      Heap         |    PeiTemporayRamSize
-	// |-------------------|---->
-	// |      Stack        |    PeiStackSize
-	// |-------------------|---->  PermanentMemoryBase
-	//
-
-	OldHeap = (VOID*) (UINTN) TemporaryMemBase;
-	NewHeap = (VOID*) ((UINTN) PermanentMemBase + PeiStackSize);
-
-	OldStack = (VOID*) ((UINTN) TemporaryMemBase + CopySize - PeiStackSize);
-	NewStack = (VOID*) (UINTN) PermanentMemBase;
-
-	DebugAgentContext.HeapMigrateOffset = (UINTN) NewHeap - (UINTN) OldHeap;
-	DebugAgentContext.StackMigrateOffset = (UINTN) NewStack - (UINTN) OldStack;
-
-	OldStatus = SaveAndSetDebugTimerInterrupt(FALSE);
-	//
-	// Initialize Debug Agent to support source level debug
-	// in PEI phase after memory ready.
-	// It will build HOB and fix up the pointer in IDT table.
-	//
-	// DebugAgentLibNull.c
-	InitializeDebugAgent(DEBUG_AGENT_INIT_POSTMEM_SEC,
-						 (VOID *) &DebugAgentContext, NULL);
-
-	//
-	// Migrate Heap
-	//
-	CopyMem(NewHeap, OldHeap, CopySize - PeiStackSize);
-
-	//
-	// Migrate Stack
-	//
-	CopyMem(NewStack, OldStack, PeiStackSize);
-
-	//
-	// We need *not* fix the return address because currently,
-	// The PeiCore is executed in flash.
-	//
-
-	//
-	// Rebase IDT table in permanent memory
-	//
-//	AsmReadIdtr(&IdtDescriptor); // TODO Remove or implement analog for Elbrus
-//	IdtDescriptor.Base = IdtDescriptor.Base - (UINTN) OldStack + (UINTN) NewStack;
-//	AsmWriteIdtr(&IdtDescriptor); // TODO Remove or implement analog for Elbrus
-
-	//
-	// Program MTRR
-	//
-
-	//
-	// SecSwitchStack function must be invoked after the memory migration
-	// immediatly, also we need fixup the stack change caused by new call into
-	// permenent memory.
-	//
-
-	// TODO Implement !!!!!!!!!!!!!!!!!!!!!!!!!
-//	SecSwitchStack((UINT32) (UINTN) OldStack, (UINT32) (UINTN) NewStack);
-
-	SaveAndSetDebugTimerInterrupt(OldStatus);
+//	VOID* OldHeap;
+//	VOID* NewHeap;
+//	VOID* OldStack;
+//	VOID* NewStack;
+//	DEBUG_AGENT_CONTEXT_POSTMEM_SEC DebugAgentContext;
+//	BOOLEAN OldStatus;
+//	UINTN PeiStackSize;
+//
+//	PeiStackSize = (CopySize >> 1);
+//
+//	ASSERT(PeiStackSize < CopySize);
+//
+//	//
+//	// |-------------------|---->
+//	// |      Stack        |    PeiStackSize
+//	// |-------------------|---->
+//	// |      Heap         |    PeiTemporayRamSize
+//	// |-------------------|---->  TempRamBase
+//	//
+//	// |-------------------|---->
+//	// |      Heap         |    PeiTemporayRamSize
+//	// |-------------------|---->
+//	// |      Stack        |    PeiStackSize
+//	// |-------------------|---->  PermanentMemoryBase
+//	//
+//
+//	OldHeap = (VOID*) (UINTN) TemporaryMemBase;
+//	NewHeap = (VOID*) ((UINTN) PermanentMemBase + PeiStackSize);
+//
+//	OldStack = (VOID*) ((UINTN) TemporaryMemBase + CopySize - PeiStackSize);
+//	NewStack = (VOID*) (UINTN) PermanentMemBase;
+//
+//	DebugAgentContext.HeapMigrateOffset = (UINTN) NewHeap - (UINTN) OldHeap;
+//	DebugAgentContext.StackMigrateOffset = (UINTN) NewStack - (UINTN) OldStack;
+//
+//	OldStatus = SaveAndSetDebugTimerInterrupt(FALSE);
+//	//
+//	// Initialize Debug Agent to support source level debug
+//	// in PEI phase after memory ready.
+//	// It will build HOB and fix up the pointer in IDT table.
+//	//
+//	// DebugAgentLibNull.c
+//	InitializeDebugAgent(DEBUG_AGENT_INIT_POSTMEM_SEC,
+//						 (VOID *) &DebugAgentContext, NULL);
+//
+//	//
+//	// Migrate Heap
+//	//
+//	CopyMem(NewHeap, OldHeap, CopySize - PeiStackSize);
+//
+//	//
+//	// Migrate Stack
+//	//
+//	CopyMem(NewStack, OldStack, PeiStackSize);
+//
+//	//
+//	// We need *not* fix the return address because currently,
+//	// The PeiCore is executed in flash.
+//	//
+//
+//	//
+//	// Rebase IDT table in permanent memory
+//	//
+////	AsmReadIdtr(&IdtDescriptor); // TODO Remove or implement analog for Elbrus
+////	IdtDescriptor.Base = IdtDescriptor.Base - (UINTN) OldStack + (UINTN) NewStack;
+////	AsmWriteIdtr(&IdtDescriptor); // TODO Remove or implement analog for Elbrus
+//
+//	//
+//	// Program MTRR
+//	//
+//
+//	//
+//	// SecSwitchStack function must be invoked after the memory migration
+//	// immediatly, also we need fixup the stack change caused by new call into
+//	// permenent memory.
+//	//
+//
+//	// TODO Implement !!!!!!!!!!!!!!!!!!!!!!!!!
+////	SecSwitchStack((UINT32) (UINTN) OldStack, (UINT32) (UINTN) NewStack);
+//
+//	SaveAndSetDebugTimerInterrupt(OldStatus);
 
 	return EFI_SUCCESS;
 }

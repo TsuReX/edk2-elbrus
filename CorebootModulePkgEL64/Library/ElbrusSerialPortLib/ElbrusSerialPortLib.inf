@@ -17,9 +17,9 @@
   MdeModulePkg/MdeModulePkg.dec
 
 [LibraryClasses]
-  PcdLib
+#  PcdLib
 #  IoLib
-  PlatformHookLib
+#  PlatformHookLib
 #  PciLib
 
 [Sources]

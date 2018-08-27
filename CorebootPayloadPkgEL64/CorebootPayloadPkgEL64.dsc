@@ -217,12 +217,17 @@ DEFINE PCI_SERIAL_PARAMETERS            = {0xff,0xff, 0x00,0x00, 0x0,0x20,0x1c,0
 
 
 [LibraryClasses.EL64.SEC]
-	DebugLib					|	MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf
+
+#Yurchenko	
+#	DebugLib					|	MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf
+#	DebugLib					|	MdePkg/Library/BaseDebugLibSerialPort/BaseDebugLibSerialPort.inf
+	DebugLib					|	CorebootModulePkgEL64/Library/ElbrusDebugLibSerialPort/ElbrusDebugLibSerialPort.inf
+
 	PcdLib						|	MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
 	HobLib						|	MdePkg/Library/PeiHobLib/PeiHobLib.inf
-	MemoryAllocationLib			|	MdePkg/Library/PeiMemoryAllocationLib/PeiMemoryAllocationLib.inf
-	DebugAgentLib				|	MdeModulePkg/Library/DebugAgentLibNull/DebugAgentLibNull.inf
-	ReportStatusCodeLib			|	MdePkg/Library/BaseReportStatusCodeLibNull/BaseReportStatusCodeLibNull.inf
+#	MemoryAllocationLib			|	MdePkg/Library/PeiMemoryAllocationLib/PeiMemoryAllocationLib.inf
+#	DebugAgentLib				|	MdeModulePkg/Library/DebugAgentLibNull/DebugAgentLibNull.inf
+#	ReportStatusCodeLib			|	MdePkg/Library/BaseReportStatusCodeLibNull/BaseReportStatusCodeLibNull.inf
 
 
 [LibraryClasses.EL64.PEI_CORE, LibraryClasses.EL64.PEIM]

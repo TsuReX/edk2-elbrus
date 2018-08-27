@@ -38,8 +38,12 @@
 })
 
 /* Store 8-bit value with specified MAS. */
-#define mas_write8(address, value, mas, channel) \
-mas_write(address, value, mas, b, channel)
+#define dbg_write(value)									\
+		mas_write(0xFFF01001, value, MAS_STORE_IO, b, 2);	\
+		for (INT32 i = 0; i < 100;) {						\
+			i += 2; 										\
+			i -= 1;	 										\
+		}
 
 //
 // PCI Defintions.
@@ -681,11 +685,14 @@ SerialPortWrite (
 //  }
 //  return Result;
 
-	INT32 i = 0;
+//	dbg_write(Buffer[0]);
+//	dbg_write(Buffer[1]);
+//	dbg_write(Buffer[2]);
+	UINTN i = 0;
 	for (; i < NumberOfBytes; ++ i) {
-		mas_write8(0xFFF01001, Buffer[i], MAS_STORE_IO, 2);
+		dbg_write(Buffer[i]);
+//		i = i / 0;
 	}
-
 	return i;
 }
 

@@ -140,7 +140,6 @@ SerialPortWrite (
   if (Buffer == NULL) {
     return 0;
   }
-
   Result = NumberOfBytes;
 
   while ((NumberOfBytes--) != 0) {

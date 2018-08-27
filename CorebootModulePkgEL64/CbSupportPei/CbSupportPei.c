@@ -225,7 +225,9 @@ EFI_STATUS EFIAPI CbPeiEntryPoint ( IN EFI_PEI_FILE_HANDLE		FileHandle,
 	UINTN                PmGpeEnBase;
 	CB_MEM_INFO          CbMemInfo;
 
-
+	DebugPrint(1,"###################################################");
+	pCbHeader = 0;
+	*(INT32*)pCbHeader = 0x12ABCDEF / 0;
 
 	//*************************************************************************
 
@@ -288,12 +290,6 @@ EFI_STATUS EFIAPI CbPeiEntryPoint ( IN EFI_PEI_FILE_HANDLE		FileHandle,
 	Status = PeiServicesInstallPeiMemory ( PeiMemBase, PeiMemSize );
 	ASSERT_EFI_ERROR (Status);
 
-	//
-	// Set cache on the physical memory
-	//
-	// TODO Implementation for Elbrus
-	//MtrrSetMemoryAttribute (BASE_1MB, LowMemorySize - BASE_1MB, CacheWriteBack);
-	//MtrrSetMemoryAttribute ((0 + 0x1000), (0xA0000 - 0x1000), CacheWriteBack);
 
 	//*************************************************************************
 	//
