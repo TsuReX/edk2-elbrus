@@ -1,66 +1,19 @@
-/*
-#------------------------------------------------------------------------------
-# Module Name:
-#
-#  SecEntry.S
-#
-# Abstract:
-#
-#  This is the code that begins in protected mode.
-#   It will transfer the control to pei core.
-#
-#------------------------------------------------------------------------------
-*/
-//ASM_GLOBAL  ASM_PFX(SecStartup)
 
-//# Pcds
-//ASM_GLOBAL  ASM_PFX(PcdGet32 (PcdPayloadFdMemBase))
-/*
-#
-# SecCore Entry Point
-#
-# Processor is in flat protected mode
-#
-# @param[in]  EAX   Initial value of the EAX register (BIST: Built-in Self Test)
-# @param[in]  DI    'BP': boot-strap processor, or 'AP': application processor
-# @param[in]  EBP   Pointer to the start of the Boot Firmware Volume
-#
-# @return     None  This routine does not return
-#
-*/
-/*ASM_GLOBAL ASM_PFX(_ModuleEntryPoint)
-ASM_PFX(_ModuleEntryPoint):
-  # Disable all the interrupts
-  cli
-  
-  # Construct the temporary memory at 0x80000, length 0x10000
-  movl $(BASE_512KB + SIZE_64KB), %esp
-
-  # Pass BFV into the PEI Core
-  pushl ASM_PFX(PcdGet32 (PcdPayloadFdMemBase))
-  
-  # Pass stack base into the PEI Core
-  pushl $BASE_512KB
-
-  # Pass stack size into the PEI Core
-  pushl $SIZE_64KB
-
-
-  # Pass Control into the PEI Core
-  call SecStartup
-  
-  #  # Never return to here
-  jmp .
-*/
-.global SecStartup
-.global _ModuleEntryPoint
+//.global SecStartup
+.global _ModuleEntryPoint, SecStartup
 _ModuleEntryPoint:
 
 	setwd wsz = 8, nfx = 1
 
+//	addd 0x0, $SIZE_64KB, %dr10
 	addd 0x0, 0x00010000, %dr10
+
+//	addd 0x0, $BASE_512KB, %dr11
 	addd 0x0, 0x00080000, %dr11
+
+//	addd 0x0, ASM_PFX(PcdGet32 (PcdPayloadFdMemBase)), %dr12
 	addd 0x0, 0x00800000, %dr12
+
 
 	disp %ctpr1, SecStartup
 	call %ctpr1, wbs = 5
