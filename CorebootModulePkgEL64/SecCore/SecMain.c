@@ -119,21 +119,46 @@ VOID EFIAPI SecStartupPhase2( IN VOID *_SecCoreData) {
 	//
 	ASSERT(PeiCoreEntryPoint != NULL);
 
-	dbg_write(0x23);
-	dbg_write(0x24);
-	dbg_write(0x0A);
-	dbg_write(0x0D);
+	dbg_write('P');
+	dbg_write('o');
+	dbg_write('i');
+	dbg_write('n');
+	dbg_write('t');
+	dbg_write('1');
+	dbg_write('\n');
+	dbg_write('\r');
 
-//	DEBUG( (0xFFFFFFFF, "123\n\r\0") );
+//	DEBUG( (0, "Point2\n\r\0") );								// It doesn't work
 
-	DebugPrint(0xFFFFFFFF, "12345\n\r\0");
+//	DebugPrint(0, "Point2\n\r\0");								// It doesn't work
 
-	dbg_write(0x24);
-	dbg_write(0x23);
-	dbg_write(0x0A);
-	dbg_write(0x0D);
-//	PeiCoreEntryPoint = 0xBABADEDA;
-//	PeiCoreEntryPoint = 0x0;
+//	UINT8 Data[] = "Point2\n\r\0"; 								// It doesn't work
+
+//	UINT8 Data[9] = {'P','o','i','n','t','2','\n','\r','\0'};	// It doesn't work
+
+
+	UINT8 Data[4];	// It works normal
+	Data[0] = 'P';
+	Data[1] = 'o';
+	Data[2] = 'i';
+	Data[3] = 'n';
+	Data[4] = 't';
+	Data[5] = '2';
+	Data[6] = '\n';
+	Data[7] = '\r';
+	Data[8] = '\0';
+
+
+	DebugPrint(0, Data);
+
+	dbg_write('P');
+	dbg_write('o');
+	dbg_write('i');
+	dbg_write('n');
+	dbg_write('t');
+	dbg_write('3');
+	dbg_write('\n');
+	dbg_write('\r');
 
 
 	(*PeiCoreEntryPoint)( SecCoreData,

@@ -1,0 +1,16 @@
+
+Important files!
+
+	.../tianocore-mcst/Conf/el64_tools_def.txt
+	.../tianocore-mcst/Conf/target.txt
+
+
+Form .../tianocore-mcst 
+	
+	. ./edksetup.sh  # ONLY ONCE!!!
+	
+	build clean && build && cp ./Build/CorebootPayloadPkgEL64/DEBUG_ELBRUS/FV/UEFIPAYLOAD.fd .../path-to/coreboot-mcst/TIANOCORE.fd 
+
+From .../coreboot-mcst
+
+	make clean && make -j4
